@@ -1,0 +1,29 @@
+{
+  "name": "backend_becarios",
+  "version": "1.0.0",
+  "description": "Repositorio para el código de backend para el proyecto Becarios IS.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yefryfunez/Backend_Becarios.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yefryfunez/Backend_Becarios/issues"
+  },
+  "homepage": "https://github.com/yefryfunez/Backend_Becarios#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
