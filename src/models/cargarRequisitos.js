@@ -2,7 +2,9 @@ const supabase = require('../config/supabase');
 
 class Requisito{
     static async loadFile(file, dni){
+        //validando que haya un archivo
         if(!file) throw new Error('No se ha selecionado ningún archivo');
+        //validando que sea un archivo de tipo pdf
         if (!(file.mimetype === 'application/pdf')) throw new Error('El archivo debe ser un pdf')
         
         // obtener la fecha para definir el nombre del archivo
@@ -17,6 +19,7 @@ class Requisito{
         // carga del archivo a la base de datos
         const {error} = await supabase
         .storage
+        //nombre del bucket
         .from('pdf-public')
         .upload(filePath,file.buffer,{contentType:'application/pdf'})
         

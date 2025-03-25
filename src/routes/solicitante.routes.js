@@ -11,11 +11,13 @@ const upload = require('../middlewares/multer');
 
 
 // rutas para el modulo de solicitantes
-router.get('/solicitantes/',getSolicitantes);
-router.post('/solicitantes/',upload.single('file'),createSolicitante);
+router.get('/obtener_solicitantes/',getSolicitantes);
+router.get('/obtener_un_solicitante/:id',findSolicitanteByNoCuenta);
+router.post('/ingresar_solicitante/',upload.single('file'),createSolicitante);
+
 router.put('/solicitantes/:id',updateSolicitante);
 router.delete('/solicitantes/:id',deleteSolicitante)
-router.get('/solicitantes/:id',findSolicitanteByNoCuenta);
+
 
 
 

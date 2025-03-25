@@ -2,8 +2,7 @@ const { SupabaseClient } = require('@supabase/supabase-js');
 const supabase = require('../config/supabase');
 
 class Solicitante{
-    /* obtener una lista de todos los solicitantes
-    *****************************************************************************************************************/
+    //obtener una lista de todos los solicitantes
     static async getAll(){
         const {data,error} = await supabase.rpc('getsolicitantes');
         if (error){
@@ -13,8 +12,7 @@ class Solicitante{
     }
     
 
-    /* buscar solicitantes por número de cuenta
-    *****************************************************************************************************************/
+    //buscar solicitantes por número de cuenta
     static async findByNoCuenta(noCuenta){
         const {data,error} = await supabase.from('solicitante').select().eq('nocuenta',noCuenta).single();
         console.log(data)
@@ -24,19 +22,17 @@ class Solicitante{
     }
 
     
-    /* crear un nuevo solicitante
-    *****************************************************************************************************************/
+    //INSERTAR SOLICITANTE
    static async create(solicitanteData){
     //    const {data,error} = await supabase.from('solicitante').insert([solicitanteData]).select();
         const {error} = await supabase.rpc('insertsolicitante',solicitanteData);
         if (error) throw new Error(`Error al insertar un nuevo solicitante: ${error.message}. ${(error.hint) ? error.hint:''}`);
         // return data;
-       return {message:'objego insertado correctamente'};
+       return {message:'Solicitud insertada correctamente'};
     }
     
     
-    /* actualizar información de un solicitante
-    *****************************************************************************************************************/
+    //actualizar información de un solicitante
    static async update(id,solicitanteData){
         const data = {message:'Solicitante actualizado con exito'}
         solicitanteData['idsolicitante'] = parseInt(id);
@@ -47,8 +43,7 @@ class Solicitante{
     }
 
 
-    /* eliminar un solicitante
-    *****************************************************************************************************************/
+    //eliminar un solicitante 
     static async delete(id){
         const {data,error} = await supabase.from('solicitante').delete().eq('idsolicitante',id).select();
         if (error) throw new Error(`Error al eliminar al solicitante con id ${id}: ${error.message}. ${(error.hint ? error.hint:'')}`);

@@ -2,8 +2,7 @@ const Solicitante = require('../models/solicitante');
 const Requisito = require('../models/cargarRequisitos');
 
 
-/* listar todos los solicitantes 
-*****************************************************************************************************************/
+//listar todos los solicitantes
 const getSolicitantes = async (req,res)=>{
     try {
         const solicitantes = await Solicitante.getAll();
@@ -15,16 +14,11 @@ const getSolicitantes = async (req,res)=>{
 
 
 
-
-
-
-/* creacion de un solicitante
-validar el indice global y el de periodo 
-*****************************************************************************************************************/
+//creacion de un solicitante
+//validar el indice global y el de periodo
 const createSolicitante = async (req,res) => {
     const solicitanteData = req.body;
     const file = req.file;
-
 
 
     // validaciones para asegurar que el solicitante está ingresando un promedio válido
@@ -68,8 +62,7 @@ const createSolicitante = async (req,res) => {
 
 
 
-/* Buscar solicitante por número de cuenta 
-******************************************************************************************************************/
+//Buscar solicitante por número de cuenta 
 const findSolicitanteByNoCuenta = async (req,res) => {
     const {id} = req.params;
     const noCuenta = id;
@@ -86,8 +79,7 @@ const findSolicitanteByNoCuenta = async (req,res) => {
 
 
 
-/* Actualizar información del Solicitante
-******************************************************************************************************************/
+// Actualizar información del Solicitante
 const updateSolicitante = async(req, res) => {
     const {id} = req.params;
     const solicitanteData = req.body;

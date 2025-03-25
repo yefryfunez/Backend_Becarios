@@ -5,7 +5,7 @@ require('dotenv').config();
 const routes = require('./routes/index');
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 // middlewares
@@ -18,8 +18,14 @@ app.use(morgan('dev'));
 app.use(routes);
 
 
+app.get('/', (req, res) => {
+    res.json({
+        message : 'si da :D'
+    })
+})
+
 app.listen(PORT, ()=>{
-    `Listening on port ${PORT}`;
+    console.log(`SERVIDOR CORRIENDO EN EL PUERTO : ${PORT}`);
 })
 
 
