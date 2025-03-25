@@ -1,7 +1,7 @@
 const { SupabaseClient } = require('@supabase/supabase-js');
 const supabase = require('../config/supabase');
 
-class Solicitante{
+class SolicitanteModel{
     //obtener una lista de todos los solicitantes
     static async getAll(){
         const {data,error} = await supabase.rpc('getsolicitantes');
@@ -31,25 +31,8 @@ class Solicitante{
        return {message:'Solicitud insertada correctamente'};
     }
     
-    
-    //actualizar información de un solicitante
-   static async update(id,solicitanteData){
-        const data = {message:'Solicitante actualizado con exito'}
-        solicitanteData['idsolicitante'] = parseInt(id);
 
-        const {error} = await supabase.rpc('updatesolicitante',solicitanteData);
-        if (error) throw new Error(`Error al actualizar un solicitante: ${error.message}. ${(error.hint ? error.hint:'')}`);
-        return data;
-    }
-
-
-    //eliminar un solicitante 
-    static async delete(id){
-        const {data,error} = await supabase.from('solicitante').delete().eq('idsolicitante',id).select();
-        if (error) throw new Error(`Error al eliminar al solicitante con id ${id}: ${error.message}. ${(error.hint ? error.hint:'')}`);
-            return data;
-    }
 }
 
 
-module.exports = Solicitante;
+module.exports = SolicitanteModel;
