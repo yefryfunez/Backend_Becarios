@@ -58,7 +58,6 @@ const ingresarSolicitante = async (req,res) => {
         /* insertar el solicitante a la base de datos
         ------------------------------------------------------------------------- */
         const respuesta = await Solicitante.ingresarSolicitante(solicitanteData);
-        console.log(respuesta)
         res.status(200).json({mensaje:respuesta});
 
     } catch (error) {

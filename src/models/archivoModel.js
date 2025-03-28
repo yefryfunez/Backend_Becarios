@@ -21,7 +21,7 @@ class ArchivoModel{
         if (error) {
             if (error.statusCode === '409') {
                 // obtener url del archivo duplicado para retornarla
-                console.log(`El archivo con el nombre "${filePath}" ya a se encuentra en la base de datos, se ha recuperado la url de este, para no tener archivos duplicados`);
+                // console.log(`El archivo con el nombre "${filePath}" ya a se existe en la base de datos, se ha recuperado la url de este, para no tener archivos duplicados`);
                 const {data} = await supabase.storage.from('pdf-files')
                 .getPublicUrl(filePath);
                 return data.publicUrl;
