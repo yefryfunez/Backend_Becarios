@@ -1,7 +1,10 @@
 const supabase = require('../config/supabase');
 
 class SolicitanteModel{
-    //obtener una lista de todos los solicitantes
+    /**
+     * Método para obtener todos los solicitantes
+     * @returns 
+     */
     static async obtenerSolicitantes(){
         const {data,error} = await supabase.rpc('obtenersolicitantes');
         if (error){
@@ -12,8 +15,12 @@ class SolicitanteModel{
     
 
     
-    //INSERTAR SOLICITANTE
-   static async ingresarSolicitante(solicitanteData){
+    /**
+     * Método para insertar solicitante
+     * @param {*} solicitanteData 
+     * @returns 
+     */
+    static async ingresarSolicitante(solicitanteData){
         const {data,error} = await supabase.rpc('insertsolicitante',solicitanteData);
         if (error)  throw new Error(`Error al insertar un nuevo solicitante: ${error.message}. ${(error.hint) ? error.hint:''}`);
        return data;

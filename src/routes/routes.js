@@ -5,9 +5,9 @@ const router = express.Router();
 
 
 // importación de controladores
-const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitanteByNoCuenta} = require('../controllers/solicitanteControlador');
+const {obtenerSolicitantes,ingresarSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador')
-
+const {enviarCorreo} = require('../controllers/soporteControlador')
 
 
 // middleware para subir archivo requisitos
@@ -22,9 +22,10 @@ router.post('/api/ingresar_solicitante/',upload.single('file'),ingresarSolicitan
 
 // rutas para publicaciones
 router.get('/api/obtener_publicaciones',obtenerPublicaciones);
-router.get('/api/ingresar_publicacion',upload.single('file'),ingresarPublicacion);
+router.post('/api/ingresar_publicacion',upload.single('file'),ingresarPublicacion);
 
-
+// rutas soporte
+router.post('/api/enviar_correo',enviarCorreo);
 
 
 
