@@ -5,9 +5,11 @@ const router = express.Router();
 
 
 // importación de controladores
-const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitanteByNoCuenta} = require('../controllers/solicitanteControlador');
+const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador')
-const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad } = require('../controllers/actividadControlador')
+const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad } = require('../controllers/actividadControlador');
+const {soporteTecnico} = require('../controllers/soporteControlador');
+const {aprobarSolicitud,rechazarSolicitud} = require('../controllers/solicitudControlador');
 
 
 
@@ -19,12 +21,12 @@ const upload = require('../middlewares/multer');
 // rutas para el modulo de solicitantes
 router.get('/api/obtener_solicitantes/',obtenerSolicitantes);
 router.post('/api/ingresar_solicitante/',upload.single('file'),ingresarSolicitante);
+router.get('/api/obtener_solicitante/:idsolicitante',obtenerSolicitante);
 
 
 // rutas para publicaciones
 router.get('/api/obtener_publicaciones',obtenerPublicaciones);
 router.post('/api/ingresar_publicacion',upload.single('file'),ingresarPublicacion);
-
 
 
 // rutas para el modulo de actividades
@@ -34,9 +36,42 @@ router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
 router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
 
 
+
+// rutas soporte
+router.post('/api/soporte_tecnico',soporteTecnico);
+
+
+// ruta para manejar la solicitudes
+router.post('/api/aprobar_solicitud',aprobarSolicitud);
+router.post('/api/rechazar_solicitud',rechazarSolicitud);
+
+
+
+
+
 router.get('/solicitantes/formulario',async (req,res)=>{
     res.render('index.js')
 })
 
 
 module.exports = router;
+
+
+/* 
+obtener solicitudes
+ingresar Solicitante 
+obtener solicitante
+
+obtenre publicaciones
+ingresar publicación
+
+obtener actividades
+ingresar actividades
+actualizar actividades
+eliminar actividades
+
+soporte técnico
+
+aprobar solicitud (estoy trabajando en esta pero no la he terminado)
+
+*/

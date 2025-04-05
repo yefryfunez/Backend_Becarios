@@ -1,6 +1,6 @@
 const Solicitante = require('../models/solicitanteModel');
-const archvio = require('../models/archivoModel');
 const ArchivoModel = require('../models/archivoModel');
+const SolicitanteModel = require('../models/solicitanteModel');
 
 /*listar todos los solicitantes 
 *********************************************************************************************** */
@@ -20,27 +20,6 @@ creacion de un solicitante
 const ingresarSolicitante = async (req,res) => {
     const solicitanteData = req.body;
     const file = req.file;
-
-
-    // // validaciones para asegurar que el solicitante está ingresando un promedio válido
-    // const errors = [];
-    // const {indiceglobal, indiceperiodo, dni, nocuenta, correoinstitucional, primernombre, primerapellido} = solicitanteData;
-
-
-    // if (indiceglobal>100 || indiceglobal < 0) errors.push('El índice global debe estar entre 0 y 100');
-    // if (indiceperiodo>100 || indiceperiodo < 0) errors.push('El índice de periodo debe estar entre 0 y 100');
-    // if (!dni || !dni.trim()) errors.push('El campo dni no debe estar vacío');
-    // if (!nocuenta || !nocuenta.trim()) errors.push('El campo número de cuenta no debe estar vacío');
-    // if (!correoinstitucional || !correoinstitucional.trim()) errors.push('El campo correo institucional no debe estar vacío');
-    // if (!primernombre || !primernombre.trim()) errors.push('El campo primer nombre no debe estar vacío');
-    // if (!primerapellido || !primerapellido.trim()) errors.push('El campo primer apellido no debe estar vacío');
-
-    // // retornar errores de validación si los hay
-    // if (errors.length > 0){
-    //     return res.status(400).json(errors)
-    // }
-
-
 
     try {
         // obtener la fecha para definir el nombre del archivo
@@ -63,17 +42,22 @@ const ingresarSolicitante = async (req,res) => {
     } catch (error) {
         res.status(500).json({error:error.message});
     }
-    
-
 }
 
 
-
-
-
+const obtenerSolicitante = async(req,res) => {
+    const idsolicitante = req.params;
+    try {
+        const respuesta = await SolicitanteModel.obtenerSolicitante(idsolicitante);
+        res.status(200).json(respuesta);
+    } catch (error) {
+        res.json({message:error});
+    }
+}
 
 
 module.exports = {
     ingresarSolicitante,
-    obtenerSolicitantes
+    obtenerSolicitantes,
+    obtenerSolicitante
 }

@@ -1,7 +1,10 @@
 const supabase = require('../config/supabase');
 
 class ActividadModel {
-    // Obtener todas las actividades
+    /**
+     * Obtener todas las actividades
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
     static async obtenerActividades() {
         const { data, error } = await supabase.from('actividades').select('*');
         if (error) {
@@ -11,7 +14,11 @@ class ActividadModel {
     }
     
 
-    // Insertar una nueva actividad
+    /**
+     * Insertar una nueva actividad
+     * @param {object} actividadData  objeto con los datos de una actividad
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
     static async insertarActividad(actividadData) {
         const { data, error } = await supabase.rpc('insertaractividad', actividadData);
         if (error) {
@@ -20,7 +27,12 @@ class ActividadModel {
         return data;
     }
 
-    // Actualizar actividad
+    /**
+     * Actualizar actividad
+     * @param {string} idactividades Id de la actividad que se pretende actualizar
+     * @param {object} actividadData objeto con los datos de una actividad
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
     static async actualizarActividad(idactividades, actividadData) {
         const { data, error } = await supabase.rpc('actualizaractividad', {
             idactividades,  // ID de la actividad que se va a actualizar
@@ -39,7 +51,11 @@ class ActividadModel {
     }
     
 
-    // Eliminar actividad
+    /**
+     * Eliminar actividad
+     * @param {string} idactividades Id de la actividad que se desea eliminar
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
     static async eliminarActividad(idactividades) {
         const { data, error } = await supabase.rpc('eliminaractividad', { idactividades }); // Parámetro en un objeto
         if (error) {
