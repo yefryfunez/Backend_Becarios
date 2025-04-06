@@ -19,7 +19,7 @@ class Correo{
             from:{
                 address:process.env.CORREO_SERVIDOR,
             },
-            to:process.env.CORREO_SERVIDOR
+            to:process.env.CORREO_SOPORTE
         }
     }
 

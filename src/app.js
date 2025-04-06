@@ -19,11 +19,6 @@ app.use(routes);
 
 
 
-app.get('/', (req, res) => {
-    res.json({
-        message : 'si da :D'
-    })
-})
 
 app.listen(PORT, ()=>{
     console.log(`SERVIDOR CORRIENDO EN EL PUERTO : ${PORT}`);

@@ -1,7 +1,7 @@
 require('dotenv').config();
-const { errorMonitor } = require('nodemailer/lib/xoauth2');
+const {Correo,transporter} = require('../models/correoModel');
 
-const {Correo,transporter} = require('../models/soporteModel');
+
 const soporteTecnico = async (req,res)=>{
     const {nombre_usuario,correo_usuario,asunto,mensaje} = req.body;
     const correo = new Correo();

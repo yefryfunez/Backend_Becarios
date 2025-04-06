@@ -36,8 +36,7 @@ router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
 router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
 
 
-
-// rutas soporte
+// rutas soporte tecnico
 router.post('/api/soporte_tecnico',soporteTecnico);
 
 
@@ -47,31 +46,9 @@ router.post('/api/rechazar_solicitud',rechazarSolicitud);
 
 
 
-
-
 router.get('/solicitantes/formulario',async (req,res)=>{
     res.render('index.js')
 })
 
 
 module.exports = router;
-
-
-/* 
-obtener solicitudes
-ingresar Solicitante 
-obtener solicitante
-
-obtenre publicaciones
-ingresar publicación
-
-obtener actividades
-ingresar actividades
-actualizar actividades
-eliminar actividades
-
-soporte técnico
-
-aprobar solicitud (estoy trabajando en esta pero no la he terminado)
-
-*/
