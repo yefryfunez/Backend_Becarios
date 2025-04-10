@@ -9,7 +9,8 @@ const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('..
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador')
 const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad } = require('../controllers/actividadControlador');
 const {soporteTecnico} = require('../controllers/soporteControlador');
-const {aprobarSolicitud,rechazarSolicitud} = require('../controllers/solicitudControlador');
+const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} 
+= require('../controllers/solicitudControlador');
 
 
 
@@ -43,7 +44,10 @@ router.post('/api/soporte_tecnico',soporteTecnico);
 // ruta para manejar la solicitudes
 router.post('/api/aprobar_solicitud',aprobarSolicitud);
 router.post('/api/rechazar_solicitud',rechazarSolicitud);
-
+router.get('/api/obtener_solicitudes_pendientes',obtenerSolicitudesPendientes);
+router.get('/api/obtener_solicitudes_aprobadas',obtenerSolicitudesAprobadas);
+router.get('/api/obtener_solicitudes_rechazadas',obtenerSolicitudesRechazadas);
+router.get('/api/obtener_solicitud/:idsolicitud',obtenerSolicitud);
 
 
 router.get('/solicitantes/formulario',async (req,res)=>{

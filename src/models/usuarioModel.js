@@ -5,7 +5,7 @@ class UsuarioModel{
     /**
      * Método para crear un nuevo usuario
      * @param {{correo:number,contrasenia:number,idrol:number}} usuarioData 
-     * @returns 
+     * @returns {number} retorna el id del usuario creado
      */
     static async ingresarUsuario(usuarioData){
         const {data,error} = await supabase.rpc('insertarusuario',usuarioData);
