@@ -7,6 +7,16 @@ const {Correo,transporter} = require('../models/correoModel');
 
 
 // obtener una lista de las solicitudes que se encuentran pendientes
+const obtenerSolicitudes = async(req,res) => {
+    try {
+        const respuesta = await SolicitudModel.obtenerSolicitudes();
+        res.status(200).json(respuesta);
+    } catch (error) {
+        res.json({error:error.message});
+    }
+}
+
+// obtener una lista de las solicitudes que se encuentran pendientes
 const obtenerSolicitudesPendientes = async(req,res) => {
     try {
         const respuesta = await SolicitudModel.obtenerSolicitudesPendientes();
@@ -52,7 +62,7 @@ const obtenerSolicitud = async (req,res) => {
 
 
 const aprobarSolicitud = async (req,res) => {
-    const {idsolicitud,idbeca} = req.body;
+    const {idsolicitud,idempleado,idbeca} = req.body;
 
     try {
         
@@ -66,7 +76,7 @@ const aprobarSolicitud = async (req,res) => {
         // aprobar solicitud
         const solicitud = {
             idsolicitud:idsolicitud,
-            idempleado:2,
+            idempleado:idempleado,
             idbeca:idbeca
         }
         const _idsolicitud = await SolicitudModel.aprobarSolicitud(solicitud);
@@ -132,9 +142,9 @@ const aprobarSolicitud = async (req,res) => {
 
 const rechazarSolicitud = async (req,res)=>{
     try {
-        const {idsolicitud} = req.body;
+        const {idempleado,idsolicitud} = req.body;
         const respuesta = await SolicitudModel
-        .rechazarSolicitud({idempleado:2,idsolicitud:idsolicitud});
+        .rechazarSolicitud({idempleado:idempleado,idsolicitud:idsolicitud});
         
         res.status(200).json({respuesta:respuesta});
     } catch (error) {
@@ -164,12 +174,13 @@ async function encriptar_contrasenia(password) {
 
 
 module.exports = {
-    obtenerSolicitudesPendientes,
-    obtenerSolicitudesAprobadas,
-    obtenerSolicitudesRechazadas,
+    obtenerSolicitudes,
     obtenerSolicitud,
     aprobarSolicitud,
-    rechazarSolicitud
+    rechazarSolicitud,
+    obtenerSolicitudesPendientes,
+    obtenerSolicitudesAprobadas,
+    obtenerSolicitudesRechazadas
 }
 
 

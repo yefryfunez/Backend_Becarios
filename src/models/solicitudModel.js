@@ -34,6 +34,18 @@ class SolicitudModel{
      * Método para obtener una lista de las solicitudes pendientes
      * @returns {Array<object>} retorna un arreglo de solicitudes
      *********************************************************************************************/
+    static async obtenerSolicitudes(){
+        const {data,error} = await supabase.rpc('obtenersolicitudes');
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+
+    /**
+     * Método para obtener una lista de las solicitudes pendientes
+     * @returns {Array<object>} retorna un arreglo de solicitudes
+     *********************************************************************************************/
     static async obtenerSolicitudesPendientes(){
         const {data,error} = await supabase.rpc('obtenersolicitudespendientes');
         if (error){
