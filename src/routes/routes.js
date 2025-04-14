@@ -7,13 +7,15 @@ const router = express.Router();
 // importación de controladores
 const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador');
-const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad } = require('../controllers/actividadControlador');
+const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
 const {soporteTecnico} = require('../controllers/soporteControlador');
-const {inscribirActividad} = require('../controllers/becarioControlador');
 const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas, obtenerSolicitudes,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} 
 = require('../controllers/solicitudControlador');
 const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante} = require('../controllers/reporteSolicitanteControlador');
 const {ingresarNotificacion} = require('../controllers/notificacionControlador');
+const {miPerfil} = require('../controllers/becarioControlador');
+
+
 
 // middleware para subir archivo requisitos
 const upload = require('../middlewares/multer');
@@ -59,7 +61,7 @@ router.post('/api/ingresar_actividad', insertarActividad);
 router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
 router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
 router.post('/api/inscribir_actividad/',inscribirActividad);
-
+router.get('/api/historia_actividades/:idbecario', historialActividades);
 
 
 
@@ -84,7 +86,7 @@ router.get('/api/obtener_solicitudes_rechazadas',obtenerSolicitudesRechazadas);
 
 // rutas para notificaciones
 router.post('/api/ingresar_notificacion',ingresarNotificacion);
-
+router.get('/api/mi_perfil/:idbecario', miPerfil);
 
 
 

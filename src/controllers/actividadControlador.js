@@ -1,4 +1,6 @@
+const ActividadModel = require('../models/actividadModel');
 const Actividad = require('../models/actividadModel');
+
 
 /* Listar todas las actividades
 *********************************************************************************************** */
@@ -69,9 +71,37 @@ const eliminarActividad = async (req, res) => {
 };
 
 
+
+
+
+const inscribirActividad = async (req,res)=>{
+    const {idactividad,idbecario} = req.body;
+    try {
+        const respuesta = await ActividadModel.inscribirActividad({idactividad:idactividad,idbecario:idbecario});
+        res.status(200).json({message:respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+
+
+const historialActividades = async(req,res) => {
+    const {idbecario} = req.params;
+    try {
+        const respuesta = await ActividadModel.historialActividades(idbecario);
+        res.status(200).json(respuesta);
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+
+
+
 module.exports = {
     obtenerActividades,
     insertarActividad,
     actualizarActividad,
-    eliminarActividad
+    eliminarActividad,
+    inscribirActividad,
+    historialActividades
 };

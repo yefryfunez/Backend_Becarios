@@ -37,13 +37,13 @@ const actualizarReporteSolicitante = async (req, res) => {
     try {
         const {idReporte} = req.params;
         // Extrae los datos del cuerpo de la solicitud
-        const {periodo, idSolicitud } = req.body;
+        const {periodo, idsolicitud } = req.body;
 
         // Llama a la función del modelo para actualizar el reporte
         const resultado = await ReporteSolicitante.actualizarReporteSolicitante(
             idReporte,
             periodo,
-            idSolicitud
+            idsolicitud
         );
 
         // Envía la respuesta JSON con el resultado del modelo

@@ -64,6 +64,47 @@ class ActividadModel {
         return data;
     }
     
+
+
+
+    
+    static async historialActividades(idbecario){
+        const {data,error} = await supabase.rpc('historialactividades',{idbecario});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        const horas = await this.totalHorasAcreditadas(idbecario)
+
+        return {
+            historialActividades:data,
+            totalHoras:horas
+        };
+    }
+    
+    static async totalHorasAcreditadas(idbecario){
+        const {data,error} = await supabase.rpc('obtenerhorasacreditadas', {idbecario});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+
+
+
+
+
+    /**
+     * Método para que un estudianta se inscriba a una actividad
+     * @param {{idactividad:number, idbecario:number}} inscripcionData objeto becario
+     * @returns {string} retorna mensaje de éxito o error
+     */
+    static async inscribirActividad(inscripcionData){
+        const {data,error} = await supabase.rpc('inscribiractividad',inscripcionData);
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
 }
 
 module.exports = ActividadModel;
