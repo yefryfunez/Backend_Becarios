@@ -68,8 +68,8 @@ class ActividadModel {
 
 
     
-    static async historialActividades(idbecario){
-        const {data,error} = await supabase.rpc('historialactividades',{idbecario});
+    static async historialActividades(idbecario, anio, mes){
+        const {data,error} = await supabase.rpc('historialactividades',{idbecario, anio, mes});
         if (error){
             throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
         }

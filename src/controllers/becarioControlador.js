@@ -3,7 +3,7 @@ const BecarioModel = require('../models/becarioModel');
 
 
 const miPerfil = async (req,res)=>{
-    const {idbecario} = req.params;
+    const idbecario = 7;
     try {
         const respuesta = await BecarioModel.miPerfil(idbecario);
         res.status(200).json({respuesta:respuesta});

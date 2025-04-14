@@ -73,9 +73,9 @@ const eliminarActividad = async (req, res) => {
 
 
 
-
 const inscribirActividad = async (req,res)=>{
-    const {idactividad,idbecario} = req.body;
+    const {idactividad} = req.params;
+    const idbecario = 7;
     try {
         const respuesta = await ActividadModel.inscribirActividad({idactividad:idactividad,idbecario:idbecario});
         res.status(200).json({message:respuesta});
@@ -86,9 +86,10 @@ const inscribirActividad = async (req,res)=>{
 
 
 const historialActividades = async(req,res) => {
-    const {idbecario} = req.params;
+    const idbecario = 7
+    const {anio,mes} = req.body;
     try {
-        const respuesta = await ActividadModel.historialActividades(idbecario);
+        const respuesta = await ActividadModel.historialActividades(idbecario,anio,mes);
         res.status(200).json(respuesta);
     } catch (error) {
         res.json({error:error.message})

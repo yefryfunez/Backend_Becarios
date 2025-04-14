@@ -60,8 +60,8 @@ router.get('/api/obtener_actividades', obtenerActividades);
 router.post('/api/ingresar_actividad', insertarActividad);
 router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
 router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
-router.post('/api/inscribir_actividad/',inscribirActividad);
-router.get('/api/historia_actividades/:idbecario', historialActividades);
+router.post('/api/inscribir_actividad/:idactividad',inscribirActividad);
+router.get('/api/historia_actividades/', historialActividades);
 
 
 
@@ -73,7 +73,7 @@ router.get('/api/historia_actividades/:idbecario', historialActividades);
 router.get('/api/obtener_solicitudes',obtenerSolicitudes);
 router.get('/api/obtener_solicitud/:idsolicitud',obtenerSolicitud);
 router.post('/api/aprobar_solicitud',aprobarSolicitud);
-router.post('/api/rechazar_solicitud',rechazarSolicitud);
+router.post('/api/rechazar_solicitud/:idsolicitud',rechazarSolicitud);
 // opcionales
 router.get('/api/obtener_solicitudes_pendientes',obtenerSolicitudesPendientes);
 router.get('/api/obtener_solicitudes_aprobadas',obtenerSolicitudesAprobadas);
@@ -86,7 +86,7 @@ router.get('/api/obtener_solicitudes_rechazadas',obtenerSolicitudesRechazadas);
 
 // rutas para notificaciones
 router.post('/api/ingresar_notificacion',ingresarNotificacion);
-router.get('/api/mi_perfil/:idbecario', miPerfil);
+router.get('/api/mi_perfil/', miPerfil);
 
 
 
@@ -97,3 +97,9 @@ router.get('/solicitantes/formulario',async (req,res)=>{
 
 
 module.exports = router;
+
+
+
+
+
+
