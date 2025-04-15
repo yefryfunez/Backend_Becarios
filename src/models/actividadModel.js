@@ -64,6 +64,70 @@ class ActividadModel {
         return data;
     }
     
+
+
+
+    
+    static async historialActividades(idbecario, anio, mes){
+        const {data,error} = await supabase.rpc('historialactividades',{idbecario, anio, mes});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        const horas = await this.totalHorasAcreditadas(idbecario)
+
+        return {
+            historialActividades:data,
+            totalHoras:horas
+        };
+    }
+    
+    static async totalHorasAcreditadas(idbecario){
+        const {data,error} = await supabase.rpc('obtenerhorasacreditadas', {idbecario});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+
+
+
+
+
+    /**
+     * Método para que un estudianta se inscriba a una actividad
+     * @param {{idactividad:number, idbecario:number}} inscripcionData objeto becario
+     * @returns {string} retorna mensaje de éxito o error
+     */
+    static async inscribirActividad(inscripcionData){
+        const {data,error} = await supabase.rpc('inscribiractividad',inscripcionData);
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    
+    static async habilitarAsistencia(idactividad){
+        const {data,error} = await supabase.rpc('habilitarasistencia',{idactividad});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    static async deshabilitarAsistencia(idactividad){
+        const {data,error} = await supabase.rpc('deshabilitarasistencia',{idactividad});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    
+    static async marcarAsistencia(idbecario,idactividad){
+        const {data,error} = await supabase.rpc('marcarasistencia',{idbecario,idactividad});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
 }
 
 module.exports = ActividadModel;

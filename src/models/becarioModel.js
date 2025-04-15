@@ -14,16 +14,11 @@ class BecarioModel{
         }
         return data;
     }
-
-    /**
-     * Método para que un estudianta se inscriba a una actividad
-     * @param {{idactividad:number, idbecario:number}} inscripcionData objeto becario
-     * @returns {string} retorna mensaje de éxito o error
-     */
-    static async inscribirActividad(inscripcionData){
-        const {data,error} = await supabase.rpc('inscribiractividad',inscripcionData);
+    
+    static async miPerfil(idusuario){
+        const {data,error} = await supabase.rpc('miperfil',{idusuario});
         if (error){
-            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+            throw new Error(`Error: ${error.message}`)
         }
         return data;
     }

@@ -62,7 +62,8 @@ const obtenerSolicitud = async (req,res) => {
 
 
 const aprobarSolicitud = async (req,res) => {
-    const {idsolicitud,idempleado,idbeca} = req.body;
+    const {idsolicitud,idbeca} = req.body;
+    const idempleado = 2;
 
     try {
         
@@ -118,19 +119,19 @@ const aprobarSolicitud = async (req,res) => {
 
 
                 
-        // enviar correo al becario una vez que su usuario ha sido creado
-        const correo = new Correo();
-        correo.setPara(solicitante[0].correoinstitucional)
-        correo.setAsunto('Solicitud de aplicación a beca');
-        correo.setMensaje(`
-            Reciba un cordial saludo estimado ${solicitante[0].primernombre} ${solicitante[0].primerapellido}.
-            Es de nuestro agrado informarle que su solicitud para aplicar a la beca ha sido aprobada.
-            Esta es su contraseña: ${contrasenia}
-            Por seguridad ingrese a la plataforma y cambiela.
-        `)
-        transporter.sendMail(correo.mailOptions,(err,info)=>{
-            if (err) return res.json({error:err.message});
-        })
+        // // enviar correo al becario una vez que su usuario ha sido creado
+        // const correo = new Correo();
+        // correo.setPara(solicitante[0].correoinstitucional)
+        // correo.setAsunto('Solicitud de aplicación a beca');
+        // correo.setMensaje(`
+        //     Reciba un cordial saludo estimado ${solicitante[0].primernombre} ${solicitante[0].primerapellido}.
+        //     Es de nuestro agrado informarle que su solicitud para aplicar a la beca ha sido aprobada.
+        //     Esta es su contraseña: ${contrasenia}
+        //     Por seguridad ingrese a la plataforma y cambiela.
+        // `)
+        // transporter.sendMail(correo.mailOptions,(err,info)=>{
+        //     if (err) return res.json({error:err.message});
+        // })
 
         
         return res.status(200).json(respuesta);
@@ -141,8 +142,9 @@ const aprobarSolicitud = async (req,res) => {
 
 
 const rechazarSolicitud = async (req,res)=>{
+    const idempleado = 2;
+    const {idsolicitud} = req.params;
     try {
-        const {idempleado,idsolicitud} = req.body;
         const respuesta = await SolicitudModel
         .rechazarSolicitud({idempleado:idempleado,idsolicitud:idsolicitud});
         
@@ -165,7 +167,7 @@ function generarContrasenia(){
     return contrasenia;
 }
 async function encriptar_contrasenia(password) {
-    const contrasenia_encriptada = await bcrypt.hash(password,10);
+    const contrasenia_encriptada = 'hola';//await bcrypt.hash(password,10);
     return contrasenia_encriptada;
 }
 
