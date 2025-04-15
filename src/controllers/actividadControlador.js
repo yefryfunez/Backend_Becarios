@@ -73,9 +73,9 @@ const eliminarActividad = async (req, res) => {
 
 
 
-
 const inscribirActividad = async (req,res)=>{
-    const {idactividad,idbecario} = req.body;
+    const {idactividad} = req.params;
+    const idbecario = 7;
     try {
         const respuesta = await ActividadModel.inscribirActividad({idactividad:idactividad,idbecario:idbecario});
         res.status(200).json({message:respuesta});
@@ -86,9 +86,10 @@ const inscribirActividad = async (req,res)=>{
 
 
 const historialActividades = async(req,res) => {
-    const {idbecario} = req.params;
+    const idbecario = 7
+    const {anio,mes} = req.body;
     try {
-        const respuesta = await ActividadModel.historialActividades(idbecario);
+        const respuesta = await ActividadModel.historialActividades(idbecario,anio,mes);
         res.status(200).json(respuesta);
     } catch (error) {
         res.json({error:error.message})
@@ -96,6 +97,35 @@ const historialActividades = async(req,res) => {
 }
 
 
+const marcarAsistencia = async(req,res)=>{
+    const idbecario = 7;
+    const {idactividad} = req.params;
+    try {
+        const respuesta = await ActividadModel.marcarAsistencia(idbecario, idactividad);
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+const habilitarAsistencia = async(req,res)=>{
+    
+    const {idactividad} = req.params;
+    try {
+        const respuesta = await ActividadModel.habilitarAsistencia(idactividad);
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+const deshabilitarAsistencia = async(req,res)=>{
+    const {idactividad} = req.params;
+    try {
+        const respuesta = await ActividadModel.deshabilitarAsistencia(idactividad);
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
 
 module.exports = {
     obtenerActividades,
@@ -103,5 +133,8 @@ module.exports = {
     actualizarActividad,
     eliminarActividad,
     inscribirActividad,
-    historialActividades
+    historialActividades,
+    marcarAsistencia,
+    habilitarAsistencia,
+    deshabilitarAsistencia
 };
