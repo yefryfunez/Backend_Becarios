@@ -105,6 +105,29 @@ class ActividadModel {
         }
         return data;
     }
+    
+    static async habilitarAsistencia(idactividad){
+        const {data,error} = await supabase.rpc('habilitarasistencia',{idactividad});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    static async deshabilitarAsistencia(idactividad){
+        const {data,error} = await supabase.rpc('deshabilitarasistencia',{idactividad});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    
+    static async marcarAsistencia(idbecario,idactividad){
+        const {data,error} = await supabase.rpc('marcarasistencia',{idbecario,idactividad});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
 }
 
 module.exports = ActividadModel;

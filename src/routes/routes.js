@@ -7,7 +7,10 @@ const router = express.Router();
 // importación de controladores
 const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador');
+
 const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
+const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia } = require('../controllers/actividadControlador');
+
 const {soporteTecnico} = require('../controllers/soporteControlador');
 const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas, obtenerSolicitudes,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} 
 = require('../controllers/solicitudControlador');
@@ -62,7 +65,9 @@ router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
 router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
 router.post('/api/inscribir_actividad/:idactividad',inscribirActividad);
 router.get('/api/historia_actividades/', historialActividades);
-
+router.get('/api/marcar_asistencia/:idactividad', marcarAsistencia)
+router.get('/api/habilitar_asistencia/:idactividad', habilitarAsistencia)
+router.get('/api/deshabilitar_asistencia/:idactividad', deshabilitarAsistencia)
 
 
 

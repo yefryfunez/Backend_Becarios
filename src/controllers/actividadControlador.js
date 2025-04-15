@@ -97,6 +97,35 @@ const historialActividades = async(req,res) => {
 }
 
 
+const marcarAsistencia = async(req,res)=>{
+    const idbecario = 7;
+    const {idactividad} = req.params;
+    try {
+        const respuesta = await ActividadModel.marcarAsistencia(idbecario, idactividad);
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+const habilitarAsistencia = async(req,res)=>{
+    
+    const {idactividad} = req.params;
+    try {
+        const respuesta = await ActividadModel.habilitarAsistencia(idactividad);
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+const deshabilitarAsistencia = async(req,res)=>{
+    const {idactividad} = req.params;
+    try {
+        const respuesta = await ActividadModel.deshabilitarAsistencia(idactividad);
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
 
 module.exports = {
     obtenerActividades,
@@ -104,5 +133,8 @@ module.exports = {
     actualizarActividad,
     eliminarActividad,
     inscribirActividad,
-    historialActividades
+    historialActividades,
+    marcarAsistencia,
+    habilitarAsistencia,
+    deshabilitarAsistencia
 };
