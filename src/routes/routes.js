@@ -11,9 +11,10 @@ const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActivid
 const {soporteTecnico} = require('../controllers/soporteControlador');
 const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas, obtenerSolicitudes,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} 
 = require('../controllers/solicitudControlador');
-const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante} = require('../controllers/reporteSolicitanteControlador');
+const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante,generarReporteSolicitantesPDF,generarReporteSolicitantesExcel} = require('../controllers/reporteSolicitanteControlador');
 const {ingresarNotificacion} = require('../controllers/notificacionControlador');
 const {miPerfil} = require('../controllers/becarioControlador');
+const {obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 
 
 
@@ -47,10 +48,15 @@ router.get('/api/obtener_reportes', obtenerReportesSolicitantes);
 router.post('/api/ingresar_reporte', insertarReporteSolicitante);
 router.put('/api/actualizar_reporte/:idReporte', actualizarReporteSolicitante);
 router.delete('/api/eliminar_reporte/:idReporte', eliminarReporteSolicitante);
+router.get('/api/reporte_solicitantes/pdf', generarReporteSolicitantesPDF);
+router.get('/api/reporte_solicitantes/excel', generarReporteSolicitantesExcel);
 
 
-
-
+// rutas para el módulo de pagos
+router.get('/api/obtener_pagos', obtenerPagos);
+router.post('/api/ingresar_pago', insertarPago);
+router.put('/api/actualizar_pago/:idpagos', actualizarPago);
+router.delete('/api/eliminar_pago/:idpagos', eliminarPago);
 
 
 

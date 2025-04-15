@@ -1,3 +1,5 @@
+const PDFDocument = require('pdfkit');
+const ExcelJS = require('exceljs');
 const ReporteSolicitante = require('../models/reporteSolicitanteModel');
 
 /* Listar todos los reportes de solicitantes
@@ -84,9 +86,63 @@ const eliminarReporteSolicitante = async (req, res) => {
     }
 };
 
+// Generar PDF
+const generarReporteSolicitantesPDF = async (req, res) => {
+    try {
+        const datos = await ReporteSolicitante.obtenerReportesSolicitantes();
+        const doc = new PDFDocument();
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=reportes_solicitantes.pdf');
+        doc.pipe(res);
+
+        doc.fontSize(18).text('Reporte de Solicitantes', { align: 'center' });
+        doc.moveDown();
+
+        datos.forEach((item, i) => {
+            doc.fontSize(12).text(`${i + 1}. Id Reporte: ${item.idreporte} | Fecha Generacion: ${item.fechageneracion} | Periodo: ${item.periodo} | ID Solicitud: ${item.idsolicitud}`);
+        });
+
+        doc.end();
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Generar Excel
+const generarReporteSolicitantesExcel = async (req, res) => {
+    try {
+        const datos = await ReporteSolicitante.obtenerReportesSolicitantes();
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Reportes Solicitantes');
+
+        worksheet.columns = [
+            { header: 'ID Reporte', key: 'idreporte', width: 15 },
+            { header: 'Fecha Generación', key: 'fechageneracion', width: 20 },
+            { header: 'Periodo', key: 'periodo', width: 20 },
+            { header: 'ID Solicitud', key: 'idsolicitud', width: 20 }
+        ];
+
+        datos.forEach(item => {
+            worksheet.addRow(item);
+        });
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=reportes_solicitantes.xlsx');
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 module.exports = {
     obtenerReportesSolicitantes,
     insertarReporteSolicitante,
     actualizarReporteSolicitante,
-    eliminarReporteSolicitante
+    eliminarReporteSolicitante,
+    generarReporteSolicitantesPDF,
+    generarReporteSolicitantesExcel
 };
