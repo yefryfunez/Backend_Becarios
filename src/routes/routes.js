@@ -9,8 +9,8 @@ const router = express.Router();
 const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador');
 
-const { obtenerActividades,insertarActividad,actualizarActividad,eliminarActividad,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
-const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia } = require('../controllers/actividadControlador');
+const {obtenerActividades, obtenerActividadesDisponibles,insertarActividad,actualizarActividad,eliminarActividad, obtenerActividad } = require('../controllers/actividadControlador');
+const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
 
 const {soporteTecnico} = require('../controllers/soporteControlador');
 const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas, obtenerSolicitudes,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} 
@@ -21,9 +21,59 @@ const {miPerfil} = require('../controllers/becarioControlador');
 const {obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 
 
-
 // middleware para subir archivo requisitos
 const upload = require('../middlewares/multer');
+
+
+
+
+
+
+
+// ##############################################################################################
+//                 BECARIO
+// ##############################################################################################
+// mi perfil
+router.get('/api/mi_perfil/', miPerfil);
+
+// rutas para el modulo de actividades
+router.get('/api/obtener_actividades_disponibles', obtenerActividadesDisponibles);
+router.get('/api/obtener_actividad/:idactividades', obtenerActividad);
+router.post('/api/inscribir_actividad/:idactividad',inscribirActividad);
+
+router.get('/api/marcar_asistencia/:idactividad', marcarAsistencia)
+
+router.get('/api/historial_actividades/', historialActividades);
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ##############################################################################################
+//                 EMPLEADO
+// ##############################################################################################
+
+// rutas para el modulo de actividades
+router.post('/api/ingresar_actividad', insertarActividad);
+router.get('/api/obtener_actividades', obtenerActividades);
+router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
+router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
+router.get('/api/habilitar_asistencia/:idactividad', habilitarAsistencia)
+router.get('/api/deshabilitar_asistencia/:idactividad', deshabilitarAsistencia)
+
+
+
+
+
+
 
 
 // rutas para publicaciones
@@ -65,19 +115,6 @@ router.delete('/api/eliminar_pago/:idpagos', eliminarPago);
 
 
 
-// rutas para el modulo de actividades
-router.get('/api/obtener_actividades', obtenerActividades);
-router.post('/api/ingresar_actividad', insertarActividad);
-router.put('/api/actualizar_actividad/:idactividades', actualizarActividad);
-router.delete('/api/eliminar_actividad/:idactividades', eliminarActividad);
-router.post('/api/inscribir_actividad/:idactividad',inscribirActividad);
-router.get('/api/historial_actividades/', historialActividades);
-router.get('/api/marcar_asistencia/:idactividad', marcarAsistencia)
-router.get('/api/habilitar_asistencia/:idactividad', habilitarAsistencia)
-router.get('/api/deshabilitar_asistencia/:idactividad', deshabilitarAsistencia)
-
-
-
 
 
 
@@ -98,7 +135,6 @@ router.get('/api/obtener_solicitudes_rechazadas',obtenerSolicitudesRechazadas);
 
 // rutas para notificaciones
 router.post('/api/ingresar_notificacion',ingresarNotificacion);
-router.get('/api/mi_perfil/', miPerfil);
 
 
 

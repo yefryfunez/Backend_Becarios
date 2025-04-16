@@ -13,6 +13,19 @@ const obtenerActividades = async (req, res) => {
     }
 };
 
+/* Listar todas las actividades
+*********************************************************************************************** */
+const obtenerActividadesDisponibles = async (req, res) => {
+    const idbecario = 7;
+    try {
+        const actividadesDisponibles = await Actividad.obtenerActividadesDisponibles(idbecario);
+        const actividadesInscritas = await Actividad.obtenerActividadesInscritas(idbecario);
+        res.status(200).json({actividadesInscritas,actividadesDisponibles});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 /*
 Crear una nueva actividad
 *********************************************************************************************** */
@@ -22,7 +35,7 @@ const insertarActividad = async (req, res) => {
     try {
         // Insertar la actividad en la base de datos
         const respuesta = await Actividad.insertarActividad(actividadData);
-        res.status(200).json({ mensaje: respuesta });  // Aquí 'respuesta' es el texto retornado desde el SP
+        res.status(200).json({  respuesta });  // Aquí 'respuesta' es el texto retornado desde el SP
 
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -47,7 +60,7 @@ const actualizarActividad = async (req, res) => {
         const respuesta = await Actividad.actualizarActividad(idactividades, actividadData);
 
         // Si la actualización fue exitosa, enviamos la respuesta
-        res.status(200).json({mensaje: respuesta });
+        res.status(200).json({ respuesta });
 
     } catch (error) {
         // Si ocurrió un error, lo manejamos
@@ -64,7 +77,23 @@ const eliminarActividad = async (req, res) => {
 
     try {
         const respuesta = await Actividad.eliminarActividad(parseInt(idactividades));
-        res.status(200).json({ mensaje: respuesta });
+        res.status(200).json({  respuesta });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+/*
+obtener actividad
+*********************************************************************************************** */
+const obtenerActividad = async (req, res) => {
+    const { idactividades } = req.params; 
+
+    try {
+        const respuesta = await Actividad.obtenerActividad(parseInt(idactividades));
+        res.status(200).json({ respuesta });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -73,6 +102,9 @@ const eliminarActividad = async (req, res) => {
 
 
 
+/*
+Inscribir actividad
+*********************************************************************************************** */
 const inscribirActividad = async (req,res)=>{
     const {idactividad} = req.params;
     const idbecario = 7;
@@ -83,6 +115,9 @@ const inscribirActividad = async (req,res)=>{
         res.json({error:error.message})
     }
 }
+
+
+
 
 
 const historialActividades = async(req,res) => {
@@ -129,6 +164,8 @@ const deshabilitarAsistencia = async(req,res)=>{
 
 module.exports = {
     obtenerActividades,
+    obtenerActividadesDisponibles,
+    obtenerActividad,
     insertarActividad,
     actualizarActividad,
     eliminarActividad,

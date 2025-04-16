@@ -1,18 +1,40 @@
 const supabase = require('../config/supabase');
 
 class ActividadModel {
+    
     /**
      * Obtener todas las actividades
      * @returns {string} mensaje de éxito o error
      *********************************************************************************************/
     static async obtenerActividades() {
-        const { data, error } = await supabase.from('actividades').select('*');
+        const { data, error } = await supabase.rpc('obteneractividades');
         if (error) {
-            throw new Error(`Error al obtener actividades: ${error.message}`);
+            throw new Error(`${error.message}`);
         }
         return data;
     }
-    
+    /**
+     * Obtener todas las actividades disponibles
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
+    static async obtenerActividadesDisponibles(idbecario) {
+        const { data, error } = await supabase.rpc('obteneractividadesdisponibles',{idbecario});
+        if (error) {
+            throw new Error(`${error.message}`);
+        }
+        return data;
+    }
+    /**
+     * Obtener actividades inscritas
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
+    static async obtenerActividadesInscritas(idbecario) {
+        const { data, error } = await supabase.rpc('obteneractividadesinscritas',{idbecario});
+        if (error) {
+            throw new Error(`${error.message}`);
+        }
+        return data;
+    }
 
     /**
      * Insertar una nueva actividad
@@ -22,7 +44,7 @@ class ActividadModel {
     static async insertarActividad(actividadData) {
         const { data, error } = await supabase.rpc('insertaractividad', actividadData);
         if (error) {
-            throw new Error(`Error al insertar actividad: ${error.message}`);
+            throw new Error(`${error.message}`);
         }
         return data;
     }
@@ -64,6 +86,20 @@ class ActividadModel {
         return data;
     }
     
+    /**
+     * obtener actividad
+     * @param {string} idactividades Id de la actividad que se desea obtener
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
+    static async obtenerActividad(idactividades) {
+        const { data, error } = await supabase.rpc('obteneractividad', { idactividades }); // Parámetro en un objeto
+        if (error) {
+            throw new Error(`Error al obtener actividad: ${error.message}`);
+        }
+        return data;
+    }
+    
+
 
 
 
