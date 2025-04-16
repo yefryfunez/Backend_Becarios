@@ -9,7 +9,7 @@ const router = express.Router();
 const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador');
 
-const {obtenerActividades, obtenerActividadesDisponibles,insertarActividad,actualizarActividad,eliminarActividad, obtenerActividad } = require('../controllers/actividadControlador');
+const {obtenerActividades, obtenerActividadesDisponibles,insertarActividad,actualizarActividad,eliminarActividad, detalleActividad } = require('../controllers/actividadControlador');
 const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
 
 const {soporteTecnico} = require('../controllers/soporteControlador');
@@ -38,7 +38,7 @@ router.get('/api/mi_perfil/', miPerfil);
 
 // rutas para el modulo de actividades
 router.get('/api/obtener_actividades_disponibles', obtenerActividadesDisponibles);
-router.get('/api/obtener_actividad/:idactividades', obtenerActividad);
+router.get('/api/detalle_actividad/:idactividades', detalleActividad);
 router.post('/api/inscribir_actividad/:idactividad',inscribirActividad);
 
 router.get('/api/marcar_asistencia/:idactividad', marcarAsistencia)

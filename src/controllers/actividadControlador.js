@@ -88,7 +88,7 @@ const eliminarActividad = async (req, res) => {
 /*
 obtener actividad
 *********************************************************************************************** */
-const obtenerActividad = async (req, res) => {
+const detalleActividad = async (req, res) => {
     const { idactividades } = req.params; 
 
     try {
@@ -165,7 +165,7 @@ const deshabilitarAsistencia = async(req,res)=>{
 module.exports = {
     obtenerActividades,
     obtenerActividadesDisponibles,
-    obtenerActividad,
+    detalleActividad,
     insertarActividad,
     actualizarActividad,
     eliminarActividad,
