@@ -10,7 +10,7 @@ class PublicacionModel{
         const {data,error} = await supabase
         .rpc('obtenerpublicaciones');
         if (error) {
-            throw new Error(`Ocurrio un error al obtener publicaciones: ${error.message} - ${(error.hint) ? error.hint:''}`);
+            throw new Error(`${error.message} - ${(error.hint) ? error.hint:''}`);
         }
         return data;
     }
@@ -23,9 +23,9 @@ class PublicacionModel{
      * @returns {string} mensaje de error o éxito
      *********************************************************************************************/
     static async ingresarPublicacion(publicacion){
-        const {data,error} = await supabase.rpc('ingresarpublicacion',[publicacion]);
+        const {data,error} = await supabase.rpc('ingresarpublicacion',publicacion);
         if (error) {
-            throw new Error(`Ocurrio un error al insertar la publicación: ${error.message} - ${(error.hint) ? error.hint:''}`);
+            throw new Error(`${error.message} - ${(error.hint) ? error.hint:''}`);
         }
         return data;
     }

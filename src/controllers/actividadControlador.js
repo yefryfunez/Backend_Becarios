@@ -1,12 +1,13 @@
 const ActividadModel = require('../models/actividadModel');
 const Actividad = require('../models/actividadModel');
-
-
+var idbecario = 7;
+var idempleado = 2;
 /* Listar todas las actividades
 *********************************************************************************************** */
 const obtenerActividades = async (req, res) => {
+    const {anio, mes} = req.body;
     try {
-        const actividades = await Actividad.obtenerActividades();
+        const actividades = await Actividad.obtenerActividades(anio,mes);
         res.status(200).json(actividades);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -16,11 +17,20 @@ const obtenerActividades = async (req, res) => {
 /* Listar todas las actividades
 *********************************************************************************************** */
 const obtenerActividadesDisponibles = async (req, res) => {
-    const idbecario = 7;
     try {
         const actividadesDisponibles = await Actividad.obtenerActividadesDisponibles(idbecario);
         const actividadesInscritas = await Actividad.obtenerActividadesInscritas(idbecario);
         res.status(200).json({actividadesInscritas,actividadesDisponibles});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+/* Listar todas las actividades empleado
+*********************************************************************************************** */
+const obtenerActividadesDisponiblesEmpleado = async (req, res) => {
+    try {
+        const actividadesDisponibles = await Actividad.obtenerActividadesDisponiblesEmpleado();
+        res.status(200).json({actividadesDisponibles});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -31,7 +41,7 @@ Crear una nueva actividad
 *********************************************************************************************** */
 const insertarActividad = async (req, res) => {
     const actividadData = req.body;
-
+    actividadData.idempleado=idempleado;
     try {
         // Insertar la actividad en la base de datos
         const respuesta = await Actividad.insertarActividad(actividadData);
@@ -49,7 +59,7 @@ Actualizar una actividad
 const actualizarActividad = async (req, res) => {
     const { idactividades } = req.params;  // Extraemos el ID de la actividad desde la URL
     const actividadData = req.body;  // Extraemos los datos de la actividad desde el body de la solicitud
-
+    actividadData.idempleado=idempleado;
     try {
         // Verificamos que el ID de la actividad esté presente
         if (!idactividades) {
@@ -107,10 +117,9 @@ Inscribir actividad
 *********************************************************************************************** */
 const inscribirActividad = async (req,res)=>{
     const {idactividad} = req.params;
-    const idbecario = 7;
     try {
         const respuesta = await ActividadModel.inscribirActividad({idactividad:idactividad,idbecario:idbecario});
-        res.status(200).json({message:respuesta});
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message})
     }
@@ -121,11 +130,10 @@ const inscribirActividad = async (req,res)=>{
 
 
 const historialActividades = async(req,res) => {
-    const idbecario = 7
     const {anio,mes} = req.body;
     try {
         const respuesta = await ActividadModel.historialActividades(idbecario,anio,mes);
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message})
     }
@@ -133,7 +141,6 @@ const historialActividades = async(req,res) => {
 
 
 const marcarAsistencia = async(req,res)=>{
-    const idbecario = 7;
     const {idactividad} = req.params;
     try {
         const respuesta = await ActividadModel.marcarAsistencia(idbecario, idactividad);
@@ -143,11 +150,17 @@ const marcarAsistencia = async(req,res)=>{
     }
 }
 const habilitarAsistencia = async(req,res)=>{
-    
     const {idactividad} = req.params;
+    let respuesta = null;
     try {
-        const respuesta = await ActividadModel.habilitarAsistencia(idactividad);
+        respuesta = await ActividadModel.habilitarAsistencia(idactividad);
         res.status(200).json({respuesta});
+        if (respuesta) {
+            setTimeout(()=>{
+                ActividadModel.deshabilitarAsistencia(idactividad)
+            },60000);
+        }
+        
     } catch (error) {
         res.json({error:error.message})
     }
@@ -165,6 +178,7 @@ const deshabilitarAsistencia = async(req,res)=>{
 module.exports = {
     obtenerActividades,
     obtenerActividadesDisponibles,
+    obtenerActividadesDisponiblesEmpleado,
     detalleActividad,
     insertarActividad,
     actualizarActividad,

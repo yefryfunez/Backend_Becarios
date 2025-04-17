@@ -15,6 +15,11 @@ class BecarioModel{
         return data;
     }
     
+    /**
+     * Método para recuperar información del perfil del becario
+     * @param {number} idusuario id del becario
+     * @returns información del becario
+     */
     static async miPerfil(idusuario){
         const {data,error} = await supabase.rpc('miperfil',{idusuario});
         if (error){

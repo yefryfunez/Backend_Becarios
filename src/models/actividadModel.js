@@ -6,19 +6,31 @@ class ActividadModel {
      * Obtener todas las actividades
      * @returns {string} mensaje de éxito o error
      *********************************************************************************************/
-    static async obtenerActividades() {
-        const { data, error } = await supabase.rpc('obteneractividades');
+    static async obtenerActividades(anio,mes) {
+        const { data, error } = await supabase.rpc('obteneractividades',{anio,mes});
         if (error) {
             throw new Error(`${error.message}`);
         }
         return data;
     }
     /**
-     * Obtener todas las actividades disponibles
+     * Obtener todas las actividades disponibles para el becario
+     * @param {number} idbecario id del becario
      * @returns {string} mensaje de éxito o error
      *********************************************************************************************/
     static async obtenerActividadesDisponibles(idbecario) {
         const { data, error } = await supabase.rpc('obteneractividadesdisponibles',{idbecario});
+        if (error) {
+            throw new Error(`${error.message}`);
+        }
+        return data;
+    }
+    /**
+     * Obtener todas las actividades disponibles para el empleado
+     * @returns {string} mensaje de éxito o error
+     *********************************************************************************************/
+    static async obtenerActividadesDisponiblesEmpleado() {
+        const { data, error } = await supabase.rpc('obteneractividadesdisponibles');
         if (error) {
             throw new Error(`${error.message}`);
         }
