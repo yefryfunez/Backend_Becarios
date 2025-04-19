@@ -64,6 +64,23 @@ class ReporteSolicitanteModel {
         }
         return data;
     }
+
+
+
+    /**
+     * Obtener reporte completo y su información relacionada
+     */
+    static async reporteCompleto() {
+        const { data, error } = await supabase.rpc('reportecompleto');
+
+        if (error) {
+            throw new Error(`Error al obtener reporte completo: ${error.message}`);
+        }
+
+        return data;
+    }
+
+
 }
 
 module.exports = ReporteSolicitanteModel;

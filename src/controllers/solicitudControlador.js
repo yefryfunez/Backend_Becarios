@@ -1,7 +1,6 @@
 const BecarioModel = require('../models/becarioModel');
 const SolicitudModel = require('../models/solicitudModel');
 const UsuarioModel = require('../models/usuarioModel');
-const bcrypt = require('bcrypt');
 const {Correo,transporter} = require('../models/correoModel');
 
 
@@ -61,7 +60,8 @@ const obtenerSolicitud = async (req,res) => {
 
 const aprobarSolicitud = async (req,res) => {
     const {idsolicitud, idbeca} = req.body;
-    const idempleado = 2;
+    const idempleado = req.usuario.idempleado;
+    if(!idempleado) return res.json('Id del empleado no especificado');
 
     try {
         
@@ -85,26 +85,18 @@ const aprobarSolicitud = async (req,res) => {
 
         
 
+
         // crear usuario al becario
+        // let password = generarContrasenia();
+        let password = solicitante[0].primernombre;
         const usuario = {
             correo:solicitante[0].correoinstitucional,
-            contrasenia:'1234',
+            contrasenia:password,
             idrol:1
         }
         const _idusuario = await UsuarioModel.ingresarUsuario(usuario)
 
-        // // generar y encriptar contraseña del usuario
-        // let contrasenia = generarContrasenia();
-        // contrasenia_encriptada = await encriptar_contrasenia(contrasenia);
-        
 
-        // // crear usuario al becario
-        // const usuario = {
-        //     correo:solicitante[0].correoinstitucional,
-        //     contrasenia:contrasenia_encriptada,
-        //     idrol:1
-        // }
-        // const _idusuario = await UsuarioModel.ingresarUsuario(usuario)
 
 
 
@@ -122,20 +114,22 @@ const aprobarSolicitud = async (req,res) => {
     
 
                 
-        // // enviar correo al becario una vez que su usuario ha sido creado
-        // const correo = new Correo();
-        // correo.setPara(solicitante[0].correoinstitucional)
-        // correo.setAsunto('Solicitud de aplicación a beca');
-        // correo.setMensaje(`
-        //     Reciba un cordial saludo estimado ${solicitante[0].primernombre} ${solicitante[0].primerapellido}.
-        //     Es de nuestro agrado informarle que su solicitud para aplicar a la beca ha sido aprobada.
-        //     Esta es su contraseña: ${contrasenia}
-        //     Por seguridad ingrese a la plataforma y cambiela.
-        // `)
-        // transporter.sendMail(correo.mailOptions,(err,info)=>{
-        //     if (err) return res.json({error:err.message});
-        // })
-
+        // enviar correo al becario una vez que su usuario ha sido creado
+        
+            const correo = new Correo();
+            correo.setPara('yadirvasquezx2@gmail.com')
+            correo.setAsunto('Solicitud de aplicación a beca');
+            correo.setMensaje(`
+                Reciba un cordial saludo estimado ${solicitante[0].primernombre} ${solicitante[0].primerapellido}.
+                Es de nuestro agrado informarle que su solicitud para aplicar a la beca ha sido aprobada.
+                Para ingresar a la plataforma de su usuario será su correo institucional: ${solicitante[0].correoinstitucional}
+                y su su contraseña es: ${password}
+                Por seguridad ingrese a la plataforma y cambie la contraseña los más pronto posible.
+            `)
+            transporter.sendMail(correo.mailOptions,(err,info)=>{
+                if (err) return res.json({error:err.message});
+            })
+        
         
         return res.status(200).json(respuesta);
     } catch (error) {
@@ -145,7 +139,7 @@ const aprobarSolicitud = async (req,res) => {
 
 
 const rechazarSolicitud = async (req,res)=>{
-    const idempleado = 2;
+    const idempleado = req.usuario.idempleado;
     const {idsolicitud} = req.params;
     try {
         const respuesta = await SolicitudModel
@@ -169,11 +163,6 @@ function generarContrasenia(){
     }
     return contrasenia;
 }
-async function encriptar_contrasenia(password) {
-    const contrasenia_encriptada = 'hola';//await bcrypt.hash(password,10);
-    return contrasenia_encriptada;
-}
-
 
 
 

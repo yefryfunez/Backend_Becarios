@@ -1,11 +1,12 @@
 const ArchivoModel = require('../models/archivoModel');
 const PublicacionModel = require('../models/publicacionModel');
-var idempleado = 2;
+
 
 /*registro de una publicación  en la bae de datos
 *********************************************************************************************** */
 const ingresarPublicacion = async (req,res) =>{
     const publicacion = req.body;
+    const idempleado = req.usuario.idempleado;
     try {
         
         // obtener la fecha para definir el nombre del archivo

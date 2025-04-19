@@ -1,6 +1,5 @@
 const ActividadModel = require('../models/actividadModel');
 const Actividad = require('../models/actividadModel');
-var idbecario = 7;
 var idempleado = 2;
 /* Listar todas las actividades
 *********************************************************************************************** */
@@ -17,6 +16,7 @@ const obtenerActividades = async (req, res) => {
 /* Listar todas las actividades
 *********************************************************************************************** */
 const obtenerActividadesDisponibles = async (req, res) => {
+    const idbecario = req.usuario.idbecario;
     try {
         const actividadesDisponibles = await Actividad.obtenerActividadesDisponibles(idbecario);
         const actividadesInscritas = await Actividad.obtenerActividadesInscritas(idbecario);
@@ -117,6 +117,8 @@ Inscribir actividad
 *********************************************************************************************** */
 const inscribirActividad = async (req,res)=>{
     const {idactividad} = req.params;
+    const idbecario = req.usuario.idbecario;
+    if(!idactividad) return res.json({error:'no se ha especificado el id de la actividad'})
     try {
         const respuesta = await ActividadModel.inscribirActividad({idactividad:idactividad,idbecario:idbecario});
         res.status(200).json({respuesta});
@@ -125,12 +127,25 @@ const inscribirActividad = async (req,res)=>{
     }
 }
 
-
+/*
+Desinscribir actividad
+*********************************************************************************************** */
+const desinscribirActividad = async (req,res)=>{
+    const {idactividad} = req.params;
+    if(!idactividad) return res.json({error:'no se ha especificado el id de la actividad'})
+    try {
+        const respuesta = await ActividadModel.desinscribirActividad({idactividad:idactividad,idbecario:idbecario});
+        res.status(200).json({respuesta});
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
 
 
 
 const historialActividades = async(req,res) => {
     const {anio,mes} = req.body;
+    const idbecario = req.usuario.idbecario;
     try {
         const respuesta = await ActividadModel.historialActividades(idbecario,anio,mes);
         res.status(200).json({respuesta});
@@ -142,6 +157,7 @@ const historialActividades = async(req,res) => {
 
 const marcarAsistencia = async(req,res)=>{
     const {idactividad} = req.params;
+    const idbecario = req.usuario.idbecario;
     try {
         const respuesta = await ActividadModel.marcarAsistencia(idbecario, idactividad);
         res.status(200).json({respuesta});
@@ -187,5 +203,6 @@ module.exports = {
     historialActividades,
     marcarAsistencia,
     habilitarAsistencia,
-    deshabilitarAsistencia
+    deshabilitarAsistencia,
+    desinscribirActividad
 };

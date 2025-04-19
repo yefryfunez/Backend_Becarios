@@ -4,8 +4,11 @@ const EmpleadoModel = require('../models/empleadoModel');
  * Obtener perfil de un empleado por ID
  */
 const perfilEmpleado = async (req, res) => {
+    // const idempleado = req.usuario.idempleado;
     const idempleado = 2;
 
+    if (!idempleado) return res.json('Id del empleado no especificado')
+    
     try {
         const perfil = await EmpleadoModel.perfilEmpleado(idempleado);
 

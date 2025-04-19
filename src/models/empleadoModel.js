@@ -15,6 +15,13 @@ class EmpleadoModel {
 
         return data;
     }
+    static async getIdEmpleado(idusuario){
+        const { data, error } = await supabase.from('empleado').select('idempleado').eq('idusuario',idusuario).single();
+        if (error) {
+            throw new Error(`${error.message}`);
+        }
+        return data;
+    }
 }
 
 module.exports = EmpleadoModel;

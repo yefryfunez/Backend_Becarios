@@ -27,6 +27,13 @@ class BecarioModel{
         }
         return data;
     }
+    static async getIdBecario(idusuario){
+        const {data,error} = await supabase.from('becario').select('idbecario').eq('idusuario',idusuario).single();
+        if (error){
+            throw new Error(`Error: ${error.message}`)
+        }
+        return data;
+    }
 
 }
 

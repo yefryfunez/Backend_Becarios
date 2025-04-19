@@ -138,11 +138,68 @@ const generarReporteSolicitantesExcel = async (req, res) => {
 };
 
 
+
+/**
+ * Obtener el reporte completo y su informacion relacionada
+ */
+const reporteCompleto = async (req, res) => {
+    try {
+        const reporte = await ReporteSolicitante.reporteCompleto();
+        res.status(200).json(reporte);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+//Generar el ReporteCompleto en Excel
+const generarReporteCompletoExcel = async (req, res) => {
+    try {
+        const datos = await ReporteSolicitante.reporteCompleto();
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Reporte Completo');
+
+        worksheet.columns = [
+            { header: 'No. Cuenta', key: 'nocuenta', width: 15 },
+            { header: 'Categoría Beca', key: 'categoria', width: 15 },
+            { header: 'Primer Nombre', key: 'primernombre', width: 20 },
+            { header: 'Segundo Nombre', key: 'segundonombre', width: 20 },
+            { header: 'Primer Apellido', key: 'primerapellido', width: 20 },
+            { header: 'Segundo Apellido', key: 'segundoapellido', width: 20 },
+            { header: 'Sexo', key: 'sexo', width: 10 },
+            { header: 'Índice Periodo', key: 'indiceperiodo', width: 18 },
+            { header: 'Carrera', key: 'nombrecarrera', width: 25 },
+            { header: 'Facultad', key: 'nombrefacultad', width: 25 },
+            { header: 'Centro de Estudio', key: 'nombrecentro', width: 25 }
+        ];
+
+        // Insertar cada fila
+        datos.forEach(item => {
+            worksheet.addRow(item);
+        });
+
+        // Configurar respuesta
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=reporte_completo.xlsx');
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+
 module.exports = {
     obtenerReportesSolicitantes,
     insertarReporteSolicitante,
     actualizarReporteSolicitante,
     eliminarReporteSolicitante,
     generarReporteSolicitantesPDF,
-    generarReporteSolicitantesExcel
+    generarReporteSolicitantesExcel,
+    reporteCompleto,
+    generarReporteCompletoExcel
 };

@@ -153,6 +153,20 @@ class ActividadModel {
         }
         return data;
     }
+
+    /**
+     * Método para que un estudianta se desinscriba de una actividad
+     * @param {{idactividad:number, idbecario:number}} inscripcionData objeto becario
+     * @returns {string} retorna mensaje de éxito o error
+     */
+    static async desinscribirActividad(inscripcionData){
+        const {data,error} = await supabase.rpc('desinscribiractividad',inscripcionData);
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    
     
     static async habilitarAsistencia(idactividad){
         const {data,error} = await supabase.rpc('habilitarasistencia',{idactividad});
@@ -176,6 +190,7 @@ class ActividadModel {
         }
         return data;
     }
+
 }
 
 module.exports = ActividadModel;
