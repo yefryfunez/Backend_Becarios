@@ -28,6 +28,20 @@ class SolicitudModel{
         }
         return data;
     }
+    
+    /**
+     * actualizar una solicitud en la base de datos
+     * @param {{idsolicitud:number,idestadosolicitud:number,idempleado:number,idbeca:number}} solicitudData objeto solicitud
+     * @returns {string} mensaje de exito o error al rechazar la solicitud
+     *********************************************************************************************/
+    static async actualizarSolicitud(solicitudData){
+        const {data,error} = await supabase.rpc('actualizarsolicitud',solicitudData);
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+
 
 
     /**
@@ -90,6 +104,7 @@ class SolicitudModel{
         }
         return data;
     }
+
 }
 
 

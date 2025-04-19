@@ -9,7 +9,7 @@ const {Correo,transporter} = require('../models/correoModel');
 const obtenerSolicitudes = async(req,res) => {
     try {
         const respuesta = await SolicitudModel.obtenerSolicitudes();
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message});
     }
@@ -19,7 +19,7 @@ const obtenerSolicitudes = async(req,res) => {
 const obtenerSolicitudesPendientes = async(req,res) => {
     try {
         const respuesta = await SolicitudModel.obtenerSolicitudesPendientes();
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message});
     }
@@ -28,7 +28,7 @@ const obtenerSolicitudesPendientes = async(req,res) => {
 const obtenerSolicitudesAprobadas = async(req,res) => {
     try {
         const respuesta = await SolicitudModel.obtenerSolicitudesAprobadas();
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message});
     }
@@ -38,7 +38,7 @@ const obtenerSolicitudesAprobadas = async(req,res) => {
 const obtenerSolicitudesRechazadas = async(req,res) => {
     try {
         const respuesta = await SolicitudModel.obtenerSolicitudesRechazadas();
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message});
     }
@@ -49,7 +49,7 @@ const obtenerSolicitud = async (req,res) => {
     const id_solicitud = req.params.idsolicitud;
     try {
         const respuesta = await SolicitudModel.obtenerSolicitud(id_solicitud);
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message});
     }
@@ -131,8 +131,9 @@ const aprobarSolicitud = async (req,res) => {
             })
         
         
-        return res.status(200).json(respuesta);
+            res.status(200).json({respuesta});
     } catch (error) {
+        await SolicitudModel.actualizarSolicitud({idsolicitud});
         return res.json({message:error.message})
     }
 }
@@ -145,7 +146,7 @@ const rechazarSolicitud = async (req,res)=>{
         const respuesta = await SolicitudModel
         .rechazarSolicitud({idempleado:idempleado,idsolicitud:idsolicitud});
         
-        res.status(200).json({respuesta:respuesta});
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message});
     }

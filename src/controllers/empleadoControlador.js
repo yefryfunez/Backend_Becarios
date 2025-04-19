@@ -5,7 +5,7 @@ const EmpleadoModel = require('../models/empleadoModel');
  */
 const perfilEmpleado = async (req, res) => {
     // const idempleado = req.usuario.idempleado;
-    const idempleado = 2;
+    const idempleado = req.usuario.idempleado;
 
     if (!idempleado) return res.json('Id del empleado no especificado')
     
@@ -16,7 +16,7 @@ const perfilEmpleado = async (req, res) => {
             return res.status(404).json({ mensaje: 'Empleado no encontrado' });
         }
 
-        res.status(200).json(perfil[0]); // Devolvemos el primer (y único) resultado
+        res.status(200).json({respuesta:perfil});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

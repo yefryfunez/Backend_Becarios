@@ -33,8 +33,12 @@ const ingresarPublicacion = async (req,res) =>{
 /*listar todas la publicaciones
 *********************************************************************************************** */
 const obtenerPublicaciones = async (req,res) => {
-    const publicaciones = await PublicacionModel.obtenerPublicaciones();
-    res.status(200).json(publicaciones);
+    try {
+        const publicaciones = await PublicacionModel.obtenerPublicaciones();
+        res.status(200).json(publicaciones);
+    } catch (error) {
+        res.status(404).json({error:error.message});
+    }
 }
 
 

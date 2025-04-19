@@ -6,8 +6,8 @@ const SolicitanteModel = require('../models/solicitanteModel');
 *********************************************************************************************** */
 const obtenerSolicitantes = async (req,res)=>{
     try {
-        const solicitantes = await Solicitante.obtenerSolicitantes();
-        res.status(200).json(solicitantes);
+        const respuesta = await Solicitante.obtenerSolicitantes();
+        res.status(200).json({respuesta});
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -49,7 +49,7 @@ const obtenerSolicitante = async(req,res) => {
     const idsolicitante = req.params;
     try {
         const respuesta = await SolicitanteModel.obtenerSolicitante(idsolicitante);
-        res.status(200).json(respuesta);
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({message:error});
     }

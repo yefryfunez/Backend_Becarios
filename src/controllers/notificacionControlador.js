@@ -8,7 +8,7 @@ const ingresarNotificacion = async(req,res)=>{
             titulomensaje:titulomensaje,
             cuerpomensaje:cuerpomensaje
         })
-        res.status(200).json(respuesta)
+        res.status(200).json({respuesta});
     } catch (error) {
         res.json({error:error.message})
     }

@@ -7,7 +7,7 @@ const ReporteSolicitante = require('../models/reporteSolicitanteModel');
 const obtenerReportesSolicitantes = async (req, res) => {
     try {
         const reportes = await ReporteSolicitante.obtenerReportesSolicitantes();
-        res.status(200).json(reportes);
+        res.status(200).json({respuesta:reportes});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -26,7 +26,7 @@ const insertarReporteSolicitante = async (req, res) => {
         }
 
         const respuesta = await ReporteSolicitante.insertarReporteSolicitante(reporteData);
-        res.status(201).json({ mensaje: respuesta });
+        res.status(200).json({respuesta});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -49,7 +49,7 @@ const actualizarReporteSolicitante = async (req, res) => {
         );
 
         // Envía la respuesta JSON con el resultado del modelo
-        res.json({ mensaje: resultado });
+        res.json({ respuesta: resultado });
     } catch (error) {
         // Maneja los errores y envía una respuesta de error adecuada
         console.error('Error al actualizar el reporte:', error);
@@ -75,7 +75,7 @@ const eliminarReporteSolicitante = async (req, res) => {
         
         // Si la respuesta es positiva, devolvemos el mensaje de éxito
         if (respuesta === 'El reporte ha sido eliminado exitosamente') {
-            res.status(200).json({ mensaje: respuesta });
+            res.status(200).json({respuesta});
         } else {
             res.status(404).json({ error: 'No se encontró el reporte para eliminar' });
         }
@@ -144,8 +144,8 @@ const generarReporteSolicitantesExcel = async (req, res) => {
  */
 const reporteCompleto = async (req, res) => {
     try {
-        const reporte = await ReporteSolicitante.reporteCompleto();
-        res.status(200).json(reporte);
+        const respuesta = await ReporteSolicitante.reporteCompleto();
+        res.status(200).json({respuesta});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

@@ -24,6 +24,7 @@ const {miPerfil} = require('../controllers/becarioControlador');
 const {obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
 const {login} = require('../controllers/usuarioControlador');
+const { enviarCodigo } = require('../controllers/usuarioControlador');
 
 
 
@@ -35,9 +36,11 @@ const verificarRol = require('../middlewares/roleMiddleware');
 
 
 
-router.post('/api/recuperar_contrasenia',)
-router.post('/api/login',login);
 
+
+router.post('/api/login',login);
+router.post('/api/enviar_codigo_recuperacion',enviarCodigo)
+//falta la parte de recuperacion de contraseña
 
 
 
@@ -91,7 +94,7 @@ router.get('/api/historial_actividades/', verificarToken, verificarRol(rol_becar
 // //                 EMPLEADO - con autenticacion
 // // ##############################################################################################
 // router.get('/api/perfil_empleado', verificarToken, verificarRol(rol_empleado), perfilEmpleado);
-router.get('/api/perfil_empleado', perfilEmpleado);
+router.get('/api/perfil_empleado',verificarToken,verificarRol(rol_empleado), perfilEmpleado);
 // // rutas para publicaciones
 router.post('/api/ingresar_publicacion',upload.single('file'), verificarToken,verificarRol(rol_empleado), ingresarPublicacion);
 

@@ -7,7 +7,7 @@ const obtenerPagos = async (req, res) => {
     try {
         // Obtener los pagos desde el modelo
         const pagos = await PagoModel.obtenerPagos();
-        res.status(200).json(pagos);  // Devolver los pagos en la respuesta
+        res.status(200).json({respuesta});
     } catch (error) {
         res.status(500).json({ error: error.message });  // Manejo de errores
     }
@@ -22,7 +22,7 @@ const insertarPago = async (req, res) => {
     try {
         // Insertar el pago en la base de datos usando el modelo
         const respuesta = await PagoModel.insertarPago(pagoData);
-        res.status(200).json({ mensaje: respuesta });  // 'respuesta' es el texto retornado desde el SP
+        res.status(200).json({respuesta});;  // 'respuesta' es el texto retornado desde el SP
 
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -39,7 +39,7 @@ const actualizarPago = async (req, res) => {
     try {
         // Llamada al modelo para actualizar el pago
         const respuesta = await PagoModel.actualizarPago(idpagos, pagoData);
-        res.status(200).json({ mensaje: respuesta });  // Responde con el mensaje de éxito
+        res.status(200).json({respuesta});  // Responde con el mensaje de éxito
 
     } catch (error) {
         res.status(500).json({ error: error.message });  // Manejo de errores
@@ -55,7 +55,7 @@ const eliminarPago = async (req, res) => {
     try {
         // Llamada al modelo para eliminar el pago
         const respuesta = await PagoModel.eliminarPago(idpagos);
-        res.status(200).json({ mensaje: respuesta });  // Responde con el mensaje de éxito
+        res.status(200).json({respuesta});  // Responde con el mensaje de éxito
 
     } catch (error) {
         res.status(500).json({ error: error.message });  // Manejo de errores
