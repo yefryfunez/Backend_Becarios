@@ -49,7 +49,7 @@ class UsuarioModel{
         if (error) throw new Error(error.message);
         return data;
     }
-
+    
     
     
     static async login(email,password){
@@ -62,16 +62,20 @@ class UsuarioModel{
         const {idrol} = await this.obtenerRol(idusuario)
         return {idusuario,idrol};
     }
-
+    
     static async obtenerRol(id){
         const {data:idrol,error} = await supabase.from('usuario').select('idrol').eq('idusuario',id).single();
         if (error) throw new Error(error.message);
         return idrol;
     }
-    static async validarMes(){
-        await supabase.rpc('validarmes');
-    }
     
+    
+    static async guardarCodigo(_id_usuario, _codigo, _expira_en){
+        const {data,error} = await supabase.rpc('guardarcodigoreseteo',{_id_usuario, _codigo, _expira_en})
+        if (error) throw new Error(error.message);
+        return data;
+
+    }
 
 }
 

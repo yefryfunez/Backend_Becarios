@@ -1,6 +1,6 @@
 const ActividadModel = require('../models/actividadModel');
 const Actividad = require('../models/actividadModel');
-var idempleado = 2;
+
 /* Listar todas las actividades
 *********************************************************************************************** */
 const obtenerActividades = async (req, res) => {
@@ -41,7 +41,7 @@ Crear una nueva actividad
 *********************************************************************************************** */
 const insertarActividad = async (req, res) => {
     const actividadData = req.body;
-    actividadData.idempleado=idempleado;
+    actividadData.idempleado=req.usuario.idempleado;
     try {
         // Insertar la actividad en la base de datos
         const respuesta = await Actividad.insertarActividad(actividadData);
@@ -59,32 +59,38 @@ Actualizar una actividad
 const actualizarActividad = async (req, res) => {
     const { idactividades } = req.params;  // Extraemos el ID de la actividad desde la URL
     const actividadData = req.body;  // Extraemos los datos de la actividad desde el body de la solicitud
-    actividadData.idempleado=idempleado;
-    try {
-        // Verificamos que el ID de la actividad esté presente
-        if (!idactividades) {
-            return res.status(400).json({ error: 'El ID de la actividad es obligatorio' });
-        }
+    actividadData.idempleado=req.usuario.idempleado;
+    
+    if (!idactividades) return res.json('Idactividad inválido.')
+        if (!req.usuario.idempleado) return res.json('id de empleado inválido.')
+            
+            actividadData.idactividades=idactividades;
+            try {
+                // Verificamos que el ID de la actividad esté presente
+                if (!idactividades) {
+                    return res.status(400).json({ error: 'El ID de la actividad es obligatorio' });
+                }
+                
+                // Llamamos al modelo para actualizar la actividad
+                const respuesta = await Actividad.actualizarActividad(actividadData);
+                
+                // Si la actualización fue exitosa, enviamos la respuesta
+                res.status(200).json({ respuesta });
+                
+            } catch (error) {
+                // Si ocurrió un error, lo manejamos
+                res.status(500).json({ error: error.message });
+            }
+        };
+        
 
-        // Llamamos al modelo para actualizar la actividad
-        const respuesta = await Actividad.actualizarActividad(idactividades, actividadData);
-
-        // Si la actualización fue exitosa, enviamos la respuesta
-        res.status(200).json({ respuesta });
-
-    } catch (error) {
-        // Si ocurrió un error, lo manejamos
-        res.status(500).json({ error: error.message });
-    }
-};
-
-
-/*
-Eliminar una actividad
-*********************************************************************************************** */
+        /*
+        Eliminar una actividad
+        *********************************************************************************************** */
 const eliminarActividad = async (req, res) => {
     const { idactividades } = req.params; 
-
+    if (!idactividades) return res.json('Idactividad inválido.')
+    
     try {
         const respuesta = await Actividad.eliminarActividad(parseInt(idactividades));
         res.status(200).json({  respuesta });

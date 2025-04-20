@@ -22,17 +22,8 @@ app.use(morgan('dev'));
 app.use(routes);
 
 
-
 app.listen(PORT, ()=>{
     console.log(`SERVIDOR CORRIENDO EN EL PUERTO : ${PORT}`);
 })
 
-
-console.log(`-------------------------------NOTA-------------------------------
-El id del becario y el id del empleado debería poder obtenerse cuando el usuario inicia sesión, por el momento estamos utilizando un id estático tanto para el becario así como también para el empleado
-idempleado=2
-idbecario=7
--------------------------------------------------------------------------------`)
-
-
-
+  

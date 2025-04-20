@@ -67,16 +67,8 @@ class ActividadModel {
      * @param {object} actividadData objeto con los datos de una actividad
      * @returns {string} mensaje de éxito o error
      *********************************************************************************************/
-    static async actualizarActividad(idactividades, actividadData) {
-        const { data, error } = await supabase.rpc('actualizaractividad', {
-            idactividades,  // ID de la actividad que se va a actualizar
-            nombreactividad: actividadData.nombreactividad,
-            horasacreditadas: actividadData.horasacreditadas,
-            fechaactividad: actividadData.fechaactividad,
-            lugar: actividadData.lugar,
-            descripcionactividad: actividadData.descripcionactividad,
-            idempleado: actividadData.idempleado
-        });
+    static async actualizarActividad(actividadData) {
+        const { data, error } = await supabase.rpc('actualizaractividad', actividadData);
     
         if (error) {
             throw new Error(`Error al actualizar actividad: ${error.message}`);

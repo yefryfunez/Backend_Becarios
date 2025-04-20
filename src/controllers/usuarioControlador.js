@@ -5,50 +5,65 @@ const EmpleadoModel = require('../models/empleadoModel');
 const {Correo,transporter} = require('../models/correoModel');
 
 
+const verificarCodigo = async(req,res)=>{
+    const {codigo, correo} = await req.body;
+    try {
+        // buscar el correo en la base de datos
+        const idusuario = await UsuarioModel.buscarCorreo(correo);
+        if (!idusuario){
+            throw new Error('No se ha encontrado el correo especificado.');
+        }
+        
+        res.status(200).json('hola')
+    } catch (error) {
+        res.json({error:error.message});        
+    }
+}
 
 
-const enviarCodigo = async(req,res)=>{
+const ingresarCorreo = async(req,res)=>{
+    let respuesta = false;
     const {correo} = req.body;
     try {
         // buscar el correo en la base de datos
-        const _correo = await UsuarioModel.buscarCorreo(correo);
-        if (!_correo){
+        const idusuario = await UsuarioModel.buscarCorreo(correo);
+        if (!idusuario){
             throw new Error('No se ha encontrado el correo especificado.');
         }
         
         // generar el codigo
-        const codigo = generarCodigo();
+        const codigo = Math.floor(100000 + Math.random() * 900000).toString();
+        // fecha y hora de expiración del cógido (10 minutos en este caso)
+        const expira_en = new Date(Date.now() + 10 * 60 * 1000); 
+
+        // guardar el código en la base de datos
+        respuesta = await UsuarioModel.guardarCodigo(idusuario,codigo,expira_en);
         
-
-
-        const mail = new Correo();
-
-        mail.setPara('yadirvasquezx2@gmail.com')
-        mail.setAsunto('Recuperación de contraseña');
-        mail.setMensaje(`
-        Reciba un cordial saludo estimado usuario se ha hecho una solicitud para cambiar la contraseña del usuario ${_correo}.
-        Este es su código de verificación para recuperar su contraseña: ${codigo}.
-        En caso de una equivocación ignore este mensaje.
-        `)
-        transporter.sendMail(mail.mailOptions,(err,info)=>{
-            if (err) return res.json({error:err.message});
-        })
-        res.status(200).json({codigo});
+        if (respuesta){
+            // enviar código al correo del usuario
+            const mail = new Correo();
+            mail.setPara('yadirvasquezx2@gmail.com')
+            mail.setAsunto('Recuperación de contraseña');
+            mail.setMensaje(`
+            Reciba un cordial saludo estimado usuario se ha hecho una solicitud para cambiar la contraseña del usuario ${correo}.
+            Este es su código de verificación para recuperar su contraseña: ${codigo}.
+            En caso de una equivocación ignore este mensaje.
+            `)
+            transporter.sendMail(mail.mailOptions,(err,info)=>{
+                if (err) return res.json({error:err.message});
+            })
+        } else{
+            return res.json({error:error.message});
+        }
+        res.status(200).json({respuesta:`Se ha enviado un código de recuperación al correo: ${correo}`});
     } catch (error) {
         res.json({error:error.message});
     }
 
 }
 
-function generarCodigo(){
-    let contrasenia = '';
-    const longitud_contrasenia = 6;
-    const caracteres = '0123456789';
-    for (let i=0;i<longitud_contrasenia;i++){
-        contrasenia+=caracteres[Math.floor(Math.random()*caracteres.length)]
-    }
-    return contrasenia;
-}
+
+
 
 
 
@@ -82,6 +97,7 @@ const login = async (req,res)=>{
 }
 
 module.exports = {
-    enviarCodigo,
-    login
+    ingresarCorreo,
+    login,
+    verificarCodigo
 }

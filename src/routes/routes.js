@@ -22,14 +22,35 @@ const {miPerfil, obtenerBecarios,obtenerBecario} = require('../controllers/becar
 const {generarPagos, obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
 const {login} = require('../controllers/usuarioControlador');
-const { enviarCodigo } = require('../controllers/usuarioControlador');
+const { ingresarCorreo } = require('../controllers/usuarioControlador');
 
 
 
-// middleware para subir archivo requisitos
+
+
+// middlewares para subir archivos, validación de inicio de sesión y rol
 const upload = require('../middlewares/multer');
 const verificarToken = require('../middlewares/authMiddleware');
 const verificarRol = require('../middlewares/roleMiddleware');
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.post('/api/login',login);
+router.post('/api/ingresar_correo',ingresarCorreo);
+// router.post('/api/verificar_codigo',verificarCodigo);
+// router.post('/api/actualizar_contraseña',actualizarContrasenia);
+
+
 
 
 
@@ -76,15 +97,6 @@ router.get('/api/generar_pagos',verificarToken, verificarRol(rol_empleado),gener
 
 
 
-
-
-
-
-
-router.post('/api/login',login);
-router.post('/api/ingresar_correo',enviarCodigo);
-// router.post('/api/verificar_codigo',verificarCodigo);
-//falta la parte de recuperacion de contraseña
 
 
 
