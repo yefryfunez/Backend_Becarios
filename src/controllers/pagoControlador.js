@@ -56,15 +56,26 @@ const eliminarPago = async (req, res) => {
         // Llamada al modelo para eliminar el pago
         const respuesta = await PagoModel.eliminarPago(idpagos);
         res.status(200).json({respuesta});  // Responde con el mensaje de éxito
-
+        
     } catch (error) {
         res.status(500).json({ error: error.message });  // Manejo de errores
     }
 };
 
+
+const generarPagos = async(req,res)=>{
+    try {
+        const respuesta = await PagoModel.generarPagos();
+        res.status(200).json({respuesta}); 
+    } catch (error) {
+        res.status(500).json({ error: error.message });  // Manejo de errores
+    }
+}
+
 module.exports = {
     insertarPago,
     obtenerPagos,
     actualizarPago,
-    eliminarPago
+    eliminarPago,
+    generarPagos
 };

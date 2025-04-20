@@ -19,7 +19,7 @@ const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitu
 const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante,generarReporteSolicitantesPDF,generarReporteSolicitantesExcel,reporteCompleto,generarReporteCompletoExcel} = require('../controllers/reporteSolicitanteControlador');
 const {ingresarNotificacion, obtenerNotificaciones} = require('../controllers/notificacionControlador');
 const {miPerfil, obtenerBecarios,obtenerBecario} = require('../controllers/becarioControlador');
-const {obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
+const {generarPagos, obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
 const {login} = require('../controllers/usuarioControlador');
 const { enviarCodigo } = require('../controllers/usuarioControlador');
@@ -54,6 +54,7 @@ router.get('/api/obtener_notificaciones', verificarToken, obtenerNotificaciones)
 
 // Ruta para eliminar una publicacion
 router.delete('/api/eliminar_publicacion/:idpublicacion', verificarToken, verificarRol(rol_empleado), eliminarPublicacion);
+router.get('/api/generar_pagos',verificarToken, verificarRol(rol_empleado),generarPagos);
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

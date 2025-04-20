@@ -57,6 +57,7 @@ class UsuarioModel{
             {email,password}
         )
         if (error) throw new Error(error.message);
+        await supabase.rpc('validarmes');
         const idusuario = data.user.id;
         const {idrol} = await this.obtenerRol(idusuario)
         return {idusuario,idrol};
@@ -67,7 +68,9 @@ class UsuarioModel{
         if (error) throw new Error(error.message);
         return idrol;
     }
-
+    static async validarMes(){
+        await supabase.rpc('validarmes');
+    }
     
 
 }
