@@ -70,11 +70,31 @@ class UsuarioModel{
     }
     
     
-    static async guardarCodigo(_id_usuario, _codigo, _expira_en){
-        const {data,error} = await supabase.rpc('guardarcodigoreseteo',{_id_usuario, _codigo, _expira_en})
+    static async guardarCodigo(_id_usuario, _codigo){
+        const {data,error} = await supabase.rpc('guardarcodigoreseteo',{_id_usuario, _codigo})
         if (error) throw new Error(error.message);
         return data;
-
+    }
+    
+    
+    static async verificarCodigo(_idusuario,_codigo){
+        const {data,error} = await supabase.rpc('verificarcodigo',{_idusuario, _codigo})
+        if (error) throw new Error(error.message);
+        return data;
+    }
+    static async utilizarCodigo(_idusuario,_codigo){
+        const {data,error} = await supabase.rpc('utilizarcodigo',{_idusuario, _codigo})
+        if (error) throw new Error(error.message);
+        return data;
+    }
+    
+    
+    static async cambiarContrasenia(userId,nuevaContrasenia){
+        const { data, error } = await supabase.auth.admin.updateUserById(userId, {
+            password: nuevaContrasenia
+        });
+        if (error) throw new Error(error.message);
+        return data;
     }
 
 }

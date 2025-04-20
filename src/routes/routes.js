@@ -21,8 +21,7 @@ const {ingresarNotificacion, obtenerNotificaciones} = require('../controllers/no
 const {miPerfil, obtenerBecarios,obtenerBecario} = require('../controllers/becarioControlador');
 const {generarPagos, obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
-const {login} = require('../controllers/usuarioControlador');
-const { ingresarCorreo } = require('../controllers/usuarioControlador');
+const { login, ingresarCorreo, verificarCodigo, restablecerContrasenia } = require('../controllers/usuarioControlador');
 
 
 
@@ -47,8 +46,8 @@ const verificarRol = require('../middlewares/roleMiddleware');
 
 router.post('/api/login',login);
 router.post('/api/ingresar_correo',ingresarCorreo);
-// router.post('/api/verificar_codigo',verificarCodigo);
-// router.post('/api/actualizar_contraseña',actualizarContrasenia);
+router.post('/api/verificar_codigo',verificarCodigo);
+router.post('/api/restablecer_contrasenia', restablecerContrasenia);
 
 
 
