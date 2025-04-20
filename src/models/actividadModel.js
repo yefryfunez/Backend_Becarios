@@ -30,7 +30,7 @@ class ActividadModel {
      * @returns {string} mensaje de éxito o error
      *********************************************************************************************/
     static async obtenerActividadesDisponiblesEmpleado() {
-        const { data, error } = await supabase.rpc('obteneractividadesdisponibles');
+        const { data, error } = await supabase.rpc('obteneractividadesdisponiblesempleado');
         if (error) {
             throw new Error(`${error.message}`);
         }
@@ -116,8 +116,8 @@ class ActividadModel {
 
 
     
-    static async historialActividades(idbecario, anio, mes){
-        const {data,error} = await supabase.rpc('historialactividades',{idbecario, anio, mes});
+    static async historialActividades(idbecario){
+        const {data,error} = await supabase.rpc('historialactividades',{idbecario});
         if (error){
             throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
         }

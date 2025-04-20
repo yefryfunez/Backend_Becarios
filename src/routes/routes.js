@@ -2,25 +2,23 @@
 // librerías
 const express = require('express');
 const router = express.Router();
-
 const rol_empleado = 2;
 const rol_becario = 1;
 
 
 // importación de controladores
-const {obtenerSolicitantes,ingresarSolicitante,obtenerSolicitante} = require('../controllers/solicitanteControlador');
-const {obtenerPublicaciones,ingresarPublicacion} = require('../controllers/publicacionControlador');
+const {ingresarSolicitante} = require('../controllers/solicitanteControlador');
+const {obtenerPublicaciones,ingresarPublicacion, eliminarPublicacion} = require('../controllers/publicacionControlador');
 
 const {obtenerActividades, obtenerActividadesDisponibles,insertarActividad,actualizarActividad,eliminarActividad, detalleActividad } = require('../controllers/actividadControlador');
 const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
 const { obtenerActividadesDisponiblesEmpleado } = require('../controllers/actividadControlador');
 
 const {soporteTecnico} = require('../controllers/soporteControlador');
-const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas, obtenerSolicitudes,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} 
-= require('../controllers/solicitudControlador');
+const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitudesRechazadas, obtenerSolicitudes,obtenerSolicitud,aprobarSolicitud,rechazarSolicitud} = require('../controllers/solicitudControlador');
 const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante,generarReporteSolicitantesPDF,generarReporteSolicitantesExcel,reporteCompleto,generarReporteCompletoExcel} = require('../controllers/reporteSolicitanteControlador');
-const {ingresarNotificacion} = require('../controllers/notificacionControlador');
-const {miPerfil} = require('../controllers/becarioControlador');
+const {ingresarNotificacion, obtenerNotificaciones} = require('../controllers/notificacionControlador');
+const {miPerfil, obtenerBecarios,obtenerBecario} = require('../controllers/becarioControlador');
 const {obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
 const {login} = require('../controllers/usuarioControlador');
@@ -38,8 +36,53 @@ const verificarRol = require('../middlewares/roleMiddleware');
 
 
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//                      AGREGADO RECIENTEMENTE
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// obtener todos los becarios
+router.get('/api/obtener_becarios/',verificarToken, verificarRol(rol_empleado),obtenerBecarios);
+// obtener todos los becarios según la beca especificada
+router.get('/api/obtener_becarios/:idbeca',verificarToken, verificarRol(rol_empleado),obtenerBecarios);
+// obtener todos los becarios según el número de cuenta
+router.get('/api/obtener_becario/:nocuenta',verificarToken, verificarRol(rol_empleado),obtenerBecario);
+
+
+
+// Rutas para las notificaciones
+router.post('/api/ingresar_notificacion', verificarToken, verificarRol(rol_empleado), ingresarNotificacion);
+router.get('/api/obtener_notificaciones', verificarToken, obtenerNotificaciones);
+
+// Ruta para eliminar una publicacion
+router.delete('/api/eliminar_publicacion/:idpublicacion', verificarToken, verificarRol(rol_empleado), eliminarPublicacion);
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post('/api/login',login);
-router.post('/api/enviar_codigo_recuperacion',enviarCodigo)
+router.post('/api/ingresar_correo',enviarCodigo);
+// router.post('/api/verificar_codigo',verificarCodigo);
 //falta la parte de recuperacion de contraseña
 
 
@@ -47,7 +90,7 @@ router.post('/api/enviar_codigo_recuperacion',enviarCodigo)
 
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//      endpoints protegidos sin autenticació
+//      endpoints sin autenticación
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // // ##############################################################################################
@@ -100,8 +143,10 @@ router.post('/api/ingresar_publicacion',upload.single('file'), verificarToken,ve
 
 // // rutas para el modulo de actividades
 router.post('/api/ingresar_actividad', verificarToken,verificarRol(rol_empleado), insertarActividad);
-router.get('/api/obtener_actividades', verificarToken,verificarRol(rol_empleado), obtenerActividades);//obtener todas las actividades
-router.get('/api/obtener_actividades_dispobibles_empleado', verificarToken,verificarRol(rol_empleado), obtenerActividadesDisponiblesEmpleado);//obtener actividades disponibles apartir hoy
+//obtener todas las actividades
+router.get('/api/obtener_actividades', verificarToken,verificarRol(rol_empleado), obtenerActividades);
+//obtener actividades disponibles apartir hoy
+router.get('/api/obtener_actividades_disponibles_empleado', verificarToken,verificarRol(rol_empleado), obtenerActividadesDisponiblesEmpleado);
 router.put('/api/actualizar_actividad/:idactividades', verificarToken,verificarRol(rol_empleado), actualizarActividad);
 router.delete('/api/eliminar_actividad/:idactividades', verificarToken,verificarRol(rol_empleado), eliminarActividad);
 router.get('/api/habilitar_asistencia/:idactividad', verificarToken,verificarRol(rol_empleado), habilitarAsistencia)
@@ -133,8 +178,6 @@ router.get('/api/obtener_solicitudes_rechazadas',verificarToken,verificarRol(rol
 
 
 
-
-
 // Ruta para obtener el reporte completo
 router.get('/api/reporte_completo', verificarToken, verificarRol(rol_empleado), reporteCompleto);
 
@@ -144,58 +187,21 @@ router.get('/api/reporte_completo_excel', verificarToken, verificarRol(rol_emple
 
 
 // Rutas para el módulo de ReportesSolicitantes
-router.get('/api/obtener_reportes', obtenerReportesSolicitantes);
-router.post('/api/ingresar_reporte', insertarReporteSolicitante);
-router.put('/api/actualizar_reporte/:idReporte', actualizarReporteSolicitante);
-router.delete('/api/eliminar_reporte/:idReporte', eliminarReporteSolicitante);
-router.get('/api/reporte_solicitantes/pdf', generarReporteSolicitantesPDF);
-router.get('/api/reporte_solicitantes/excel', generarReporteSolicitantesExcel);
+router.get('/api/obtener_reportes', verificarToken, verificarRol(rol_empleado), obtenerReportesSolicitantes);
+router.post('/api/ingresar_reporte', verificarToken, verificarRol(rol_empleado), insertarReporteSolicitante);
+router.put('/api/actualizar_reporte/:idReporte', verificarToken, verificarRol(rol_empleado), actualizarReporteSolicitante);
+router.delete('/api/eliminar_reporte/:idReporte', verificarToken, verificarRol(rol_empleado), eliminarReporteSolicitante);
+router.get('/api/reporte_solicitantes/pdf', verificarToken, verificarRol(rol_empleado), generarReporteSolicitantesPDF);
+router.get('/api/reporte_solicitantes/excel', verificarToken, verificarRol(rol_empleado), generarReporteSolicitantesExcel);
 
 
 
 // rutas para el módulo de pagos
-router.get('/api/obtener_pagos', obtenerPagos);
-router.post('/api/ingresar_pago', insertarPago);
-router.put('/api/actualizar_pago/:idpagos', actualizarPago);
-router.delete('/api/eliminar_pago/:idpagos', eliminarPago);
-
-
-// rutas para notificaciones
-// router.post('/api/ingresar_notificacion',ingresarNotificacion);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+router.get('/api/obtener_pagos', verificarToken, verificarRol(rol_empleado), obtenerPagos);
+router.post('/api/ingresar_pago', verificarToken, verificarRol(rol_empleado), insertarPago);
+router.put('/api/actualizar_pago/:idpagos', verificarToken, verificarRol(rol_empleado), actualizarPago);
+router.delete('/api/eliminar_pago/:idpagos', verificarToken, verificarRol(rol_empleado), eliminarPago);
+// falta el generar pagaos
 
 
 

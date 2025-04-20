@@ -43,7 +43,26 @@ const obtenerPublicaciones = async (req,res) => {
 
 
 
+
+/**
+ * Eliminar una publicación 
+ */
+const eliminarPublicacion = async (req, res) => {
+    const { idpublicacion } = req.params;  
+
+    try {
+        const respuesta = await PublicacionModel.eliminarPublicacion(idpublicacion);
+        res.status(200).json({ mensaje: respuesta });  
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });  
+    }
+};
+
+
+
 module.exports = {
     ingresarPublicacion,
-    obtenerPublicaciones
+    obtenerPublicaciones,
+    eliminarPublicacion
 }

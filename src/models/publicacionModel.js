@@ -29,6 +29,22 @@ class PublicacionModel{
         }
         return data;
     }
+
+
+    /**
+     * Eliminar una publicación 
+     * @param {number} idpublicacion - El ID de la publicación que se desea eliminar
+     * @returns {string} Mensaje de éxito o error
+     */
+    static async eliminarPublicacion(idpublicacion) {
+        const { data, error } = await supabase.rpc('eliminarpublicacion', { idpublicacion });
+
+        if (error) {
+            throw new Error(`Error al eliminar la publicación: ${error.message}`);
+        }
+
+        return data;
+    }
 }
 
 module.exports = PublicacionModel;

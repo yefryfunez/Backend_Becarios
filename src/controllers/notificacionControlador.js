@@ -1,3 +1,4 @@
+
 const NotificacionModel = require('../models/notificacionModel');
 
 const ingresarNotificacion = async(req,res)=>{
@@ -14,6 +15,20 @@ const ingresarNotificacion = async(req,res)=>{
     }
 }
 
+    
+/**
+ * Obtener todas las notificaciones
+ */
+const obtenerNotificaciones = async (req, res) => {
+    try {
+        const notificaciones = await NotificacionModel.obtenerNotificaciones();
+        res.status(200).json(notificaciones);  
+    } catch (error) {
+        res.status(500).json({ error: error.message });  
+    }
+};
+
 module.exports = {
-    ingresarNotificacion
+    ingresarNotificacion,
+    obtenerNotificaciones
 }

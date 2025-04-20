@@ -34,7 +34,30 @@ class BecarioModel{
         }
         return data;
     }
-
+    /**
+     * Metodo para obtener una lista de becarios según el tipo de beca
+     * @param {number} id_beca id del tipo de beca
+     * @returns {Array} lista de becarios
+     */
+    static async obtenerBecarios(id_beca){
+        const {data,error} = await supabase.rpc('obtenerbecarios',{id_beca});
+        if (error){
+            throw new Error(`Error: ${error.message}`)
+        }
+        return data;
+    }
+    /**
+     * Metodo para buscar becario por numero de cuenta
+     * @param {string} no_cuenta número de cuenta del becario
+     * @returns {object} Objeto becarios
+     */
+    static async obtenerBecario(no_cuenta){
+        const {data,error} = await supabase.rpc('obtenerbecario',{no_cuenta});
+        if (error){
+            throw new Error(`Error: ${error.message}`)
+        }
+        return data;
+    }
 }
 
 module.exports = BecarioModel

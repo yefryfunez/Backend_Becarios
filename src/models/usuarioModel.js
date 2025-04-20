@@ -68,7 +68,7 @@ class UsuarioModel{
         return idrol;
     }
 
-
+    
 
 }
 
