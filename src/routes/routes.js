@@ -219,7 +219,7 @@ router.get('/api/obtener_pagos', verificarToken, verificarRol(rol_empleado), obt
 router.post('/api/ingresar_pago', verificarToken, verificarRol(rol_empleado), insertarPago);
 router.put('/api/actualizar_pago/:idpagos', verificarToken, verificarRol(rol_empleado), actualizarPago);
 router.delete('/api/eliminar_pago/:idpagos', verificarToken, verificarRol(rol_empleado), eliminarPago);
-// falta el generar pagaos
+
 
 
 

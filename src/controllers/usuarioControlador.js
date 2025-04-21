@@ -115,19 +115,19 @@ const login = async (req,res)=>{
             token = jwt.sign(
                 {idusuario, idrol, idbecario},
                 process.env.SUPABASE_JWT_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '5h' }
             );
         }else if (idrol===2){
             const {idempleado} = await EmpleadoModel.getIdEmpleado(idusuario);
             token = jwt.sign(
                 {idusuario, idrol, idempleado},
                 process.env.SUPABASE_JWT_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '5h' }
             );
         }else{
             return res.json({error:'Rol no encontrado'})
         }
-        res.status(400).json({token})
+        res.status(200).json({token})
     } catch (error) {
         res.status(400).json({error:error.message})
     }

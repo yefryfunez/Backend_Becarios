@@ -10,17 +10,17 @@ const verificarToken = async (req,res,next)=>{
     
 
     const token = authHeader.split(' ')[1]
-
+    
     try {
         // verificamos el token recibido desde el frontend con el token del backend
         const decoded = jwt.verify(token,process.env.SUPABASE_JWT_SECRET);
         const idusuario = decoded.idusuario;
         const idrol = decoded.idrol;
-        if (!decoded) return res.json('Token inválido');
-
+        if (!decoded) return res.status(401).json('Token inválido');
+        
         // Obtenermo sel id del usuario
         let {data:rol,error} = await supabase.from('usuario').select('idrol').eq('idusuario',idusuario).single();
-        if (error) return res.status(403).json({ error: `No se ha encontrado al usuario en la base de datos` });
+        if (error) return res.status(401).json({ error: `No se ha encontrado al usuario en la base de datos` });
         
         
         
@@ -39,12 +39,11 @@ const verificarToken = async (req,res,next)=>{
                 idrol,
                 idempleado:decoded.idempleado
             }
-
         }
         
         next()
     } catch (error) {
-        res.json({error:`middleware - ${error.message}`});
+        res.status(401).json({error:`middleware - ${error.message}`});
     }
 }
 

@@ -6,7 +6,7 @@ const PagoModel = require('../models/pagoModel');
 const obtenerPagos = async (req, res) => {
     try {
         // Obtener los pagos desde el modelo
-        const pagos = await PagoModel.obtenerPagos();
+        const respuesta = await PagoModel.obtenerPagos();
         res.status(200).json({respuesta});
     } catch (error) {
         res.status(500).json({ error: error.message });  // Manejo de errores

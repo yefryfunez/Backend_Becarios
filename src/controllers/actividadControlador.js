@@ -43,6 +43,9 @@ const insertarActividad = async (req, res) => {
     const actividadData = req.body;
     actividadData.idempleado=req.usuario.idempleado;
     try {
+        if(!actividadData.cuposdisponibles && (actividadData.cuposdisponibles==='' || actividadData.cuposdisponibles ===null)){
+            delete actividadData.cuposdisponibles;
+        }
         // Insertar la actividad en la base de datos
         const respuesta = await Actividad.insertarActividad(actividadData);
         res.status(200).json({  respuesta });  // Aquí 'respuesta' es el texto retornado desde el SP
@@ -65,6 +68,9 @@ const actualizarActividad = async (req, res) => {
         if (!req.usuario.idempleado) return res.json('id de empleado inválido.')
             
             actividadData.idactividades=idactividades;
+            if(!actividadData.cuposdisponibles && (actividadData.cuposdisponibles==='' || actividadData.cuposdisponibles ===null)){
+                actividadData.cuposdisponibles=0;
+            }
             try {
                 // Verificamos que el ID de la actividad esté presente
                 if (!idactividades) {
@@ -79,7 +85,7 @@ const actualizarActividad = async (req, res) => {
                 
             } catch (error) {
                 // Si ocurrió un error, lo manejamos
-                res.status(500).json({ error: error.message });
+                res.status(400).json({ error: error.message });
             }
         };
         
