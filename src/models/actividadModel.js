@@ -113,11 +113,13 @@ class ActividadModel {
         if (error){
             throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
         }
-        const horas = await this.totalHorasAcreditadas(idbecario)
+        const horas = await this.totalHorasAcreditadas(idbecario);
+        const horas_restantes = await this.horasRestantes(idbecario);
 
         return {
-            historialActividades:data,
-            totalHoras:horas
+            totalHoras:horas,
+            horas_restantes,
+            historialActividades:data
         };
     }
     
@@ -128,7 +130,15 @@ class ActividadModel {
         }
         return data;
     }
-
+    
+    static async horasRestantes(id_becario){
+        const {data,error} = await supabase.rpc('obtenerhorasrestantes', {id_becario});
+        if (error){
+            throw new Error(`${error.message} - ${error.hint ? error.hint:''}`);
+        }
+        return data;
+    }
+    
 
 
 

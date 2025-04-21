@@ -11,7 +11,7 @@ const {ingresarSolicitante} = require('../controllers/solicitanteControlador');
 const {obtenerPublicaciones,ingresarPublicacion, eliminarPublicacion} = require('../controllers/publicacionControlador');
 
 const {obtenerActividades, obtenerActividadesDisponibles,insertarActividad,actualizarActividad,eliminarActividad, detalleActividad } = require('../controllers/actividadControlador');
-const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia,inscribirActividad, historialActividades } = require('../controllers/actividadControlador');
+const { marcarAsistencia, habilitarAsistencia, deshabilitarAsistencia,inscribirActividad, historialActividades, desinscribirActividad } = require('../controllers/actividadControlador');
 const { obtenerActividadesDisponiblesEmpleado } = require('../controllers/actividadControlador');
 
 const {soporteTecnico} = require('../controllers/soporteControlador');
@@ -140,8 +140,14 @@ router.get('/api/mi_perfil/', verificarToken, verificarRol(rol_becario), miPerfi
 router.get('/api/obtener_actividades_disponibles', verificarToken, verificarRol(rol_becario), obtenerActividadesDisponibles);
 router.get('/api/detalle_actividad/:idactividades', verificarToken, detalleActividad);
 router.post('/api/inscribir_actividad/:idactividad',verificarToken, verificarRol(rol_becario), inscribirActividad);
+router.post('/api/desinscribir_actividad/:idactividad',verificarToken, verificarRol(rol_becario), desinscribirActividad);
 router.get('/api/marcar_asistencia/:idactividad', verificarToken, verificarRol(rol_becario), marcarAsistencia)
 router.get('/api/historial_actividades/', verificarToken, verificarRol(rol_becario), historialActividades);
+
+
+
+
+
 
 
 
