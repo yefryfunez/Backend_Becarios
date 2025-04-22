@@ -19,7 +19,7 @@ const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitu
 const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante,generarReporteSolicitantesPDF,generarReporteSolicitantesExcel,reporteCompleto,generarReporteCompletoExcel} = require('../controllers/reporteSolicitanteControlador');
 const {ingresarNotificacion, obtenerNotificaciones} = require('../controllers/notificacionControlador');
 const {miPerfil, obtenerBecarios,obtenerBecario} = require('../controllers/becarioControlador');
-const {generarPagos, obtenerPagos,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
+const {generarPagos, obtenerPagos, obtenerPagosEsteMes,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
 const { login, ingresarCorreo, verificarCodigo, restablecerContrasenia } = require('../controllers/usuarioControlador');
 
@@ -216,6 +216,7 @@ router.get('/api/reporte_solicitantes/excel', verificarToken, verificarRol(rol_e
 
 // rutas para el módulo de pagos
 router.get('/api/obtener_pagos', verificarToken, verificarRol(rol_empleado), obtenerPagos);
+router.get('/api/obtener_pagos_mes', verificarToken, verificarRol(rol_empleado), obtenerPagosEsteMes);
 router.post('/api/ingresar_pago', verificarToken, verificarRol(rol_empleado), insertarPago);
 router.put('/api/actualizar_pago/:idpagos', verificarToken, verificarRol(rol_empleado), actualizarPago);
 router.delete('/api/eliminar_pago/:idpagos', verificarToken, verificarRol(rol_empleado), eliminarPago);

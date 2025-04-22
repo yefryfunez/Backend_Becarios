@@ -11,7 +11,17 @@ class PagoModel {
         if (error) {
             throw new Error(`Error al obtener pagos: ${error.message}`);
         }
-
+        return data;
+    }
+    /**
+     * Obtener los pagos de este mes
+     * @returns {Array} Lista de pagos
+     */
+    static async obtenerPagosEsteMes() {
+        const { data, error } = await supabase.rpc('obtenerpagosestemes');
+        if (error) {
+            throw new Error(`Error al obtener pagos: ${error.message}`);
+        }
         return data;
     }
 
@@ -21,13 +31,7 @@ class PagoModel {
      * @returns {string} Mensaje de éxito o error
      */
     static async insertarPago(pagoData) {
-        const { data, error } = await supabase.rpc('insertarpago', {
-            fechaemisioncheque: pagoData.fechaemisioncheque,
-            monto: pagoData.monto,
-            motivopago: pagoData.motivopago,
-            estadopago: pagoData.estadopago,
-            idbecario: pagoData.idbecario
-        });
+        const { data, error } = await supabase.rpc('insertarpago', pagoData);
 
         if (error) {
             throw new Error(`Error al insertar el pago: ${error.message}`);
@@ -42,16 +46,8 @@ class PagoModel {
      * @param {object} pagoData - Los datos a actualizar (fechaemisioncheque, monto, motivopago, estadopago, idbecario)
      * @returns {string} Mensaje de éxito o error
      */
-    static async actualizarPago(idpagos, pagoData) {
-        const { data, error } = await supabase.rpc('actualizarpago', {
-            idpagos,
-            fechaemisioncheque: pagoData.fechaemisioncheque,
-            monto: pagoData.monto,
-            motivopago: pagoData.motivopago,
-            estadopago: pagoData.estadopago,
-            idbecario: pagoData.idbecario
-        });
-
+    static async actualizarPago(pagoData) {
+        const { data, error } = await supabase.rpc('actualizarpago', pagoData);
         if (error) {
             throw new Error(`Error al actualizar el pago: ${error.message}`);
         }
