@@ -19,7 +19,7 @@ const {obtenerSolicitudesPendientes,obtenerSolicitudesAprobadas, obtenerSolicitu
 const {obtenerReportesSolicitantes,insertarReporteSolicitante,actualizarReporteSolicitante,eliminarReporteSolicitante,generarReporteSolicitantesPDF,generarReporteSolicitantesExcel,reporteCompleto,generarReporteCompletoExcel} = require('../controllers/reporteSolicitanteControlador');
 const {ingresarNotificacion, obtenerNotificaciones} = require('../controllers/notificacionControlador');
 const {miPerfil, obtenerBecarios,obtenerBecario} = require('../controllers/becarioControlador');
-const {generarPagos, obtenerPagos, obtenerPagosEsteMes,insertarPago,actualizarPago,eliminarPago} = require('../controllers/pagoControlador');
+const {generarPagos, obtenerPagos, obtenerPagosEsteMes,insertarPago,actualizarPago,eliminarPago, generarReportesPagosExcel, generarReportePagosMesExcel} = require('../controllers/pagoControlador');
 const {perfilEmpleado} = require('../controllers/empleadoControlador');
 const { login, ingresarCorreo, verificarCodigo, restablecerContrasenia } = require('../controllers/usuarioControlador');
 
@@ -75,6 +75,15 @@ router.get('/api/obtener_notificaciones', verificarToken, obtenerNotificaciones)
 // Ruta para eliminar una publicacion
 router.delete('/api/eliminar_publicacion/:idpublicacion', verificarToken, verificarRol(rol_empleado), eliminarPublicacion);
 router.get('/api/generar_pagos',verificarToken, verificarRol(rol_empleado),generarPagos);
+
+
+//Ruta para generar el archivo excel de todos los Pagos
+router.get('/api/reporte_pagos_excel', verificarToken, verificarRol(rol_empleado), generarReportesPagosExcel);
+
+
+//Ruta para generar el archivo excel de Pagos del Mes Actual
+router.get('/api/reporte_pagos_mes', verificarToken,verificarRol(rol_empleado), generarReportePagosMesExcel);
+
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

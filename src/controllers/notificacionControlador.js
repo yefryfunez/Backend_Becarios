@@ -2,7 +2,8 @@
 const NotificacionModel = require('../models/notificacionModel');
 
 const ingresarNotificacion = async(req,res)=>{
-    const {idempleado, titulomensaje, cuerpomensaje} = req.body;
+    const {titulomensaje, cuerpomensaje} = req.body;
+    const {idempleado} = req.usuario;
     try {
         const respuesta = await NotificacionModel.ingresarNotificacion({
             idempleado:idempleado,
